@@ -48,12 +48,12 @@ apps-script/Code.gs 구글 시트 쓰기 API (선택)
 2. 아래 명령으로 올립니다.
 
 ```bash
-git remote add origin https://github.com/<아이디>/gyeonggi-math-festa.git
+git remote add origin https://github.com/SewoongYun/gyeonggi-math-festa.git
 git push -u origin main
 ```
 
 3. 저장소 **Settings → Pages → Build and deployment** → Source: *Deploy from a branch*, Branch: `main` / `/(root)` → Save
-4. 1~2분 뒤 `https://<아이디>.github.io/gyeonggi-math-festa/` 로 접속됩니다.
+4. 1~2분 뒤 `https://sewoongyun.github.io/gyeonggi-math-festa/` 로 접속됩니다.
 
 GitHub CLI(`gh`)가 있다면 한 줄로 끝납니다.
 
@@ -61,7 +61,7 @@ GitHub CLI(`gh`)가 있다면 한 줄로 끝납니다.
 gh repo create gyeonggi-math-festa --public --source=. --push
 ```
 
-이후 `gh api -X POST repos/<아이디>/gyeonggi-math-festa/pages -f "source[branch]=main" -f "source[path]=/"` 로 Pages를 켤 수 있습니다.
+이후 `gh api -X POST repos/SewoongYun/gyeonggi-math-festa/pages -f "source[branch]=main" -f "source[path]=/"` 로 Pages를 켤 수 있습니다.
 
 ## 3. 부스 운영 팁
 

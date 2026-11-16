@@ -147,7 +147,7 @@
   const searchEl = document.getElementById("search");
   const badge = document.getElementById("source-badge");
   const modal = document.getElementById("app-modal");
-  const PANELS = ["cases", "howto", "about", "booth"];
+  const PANELS = ["about", "booth", "cases", "howto"];
 
   /* 메인 탭 */
   function showTab(name) {
@@ -254,7 +254,7 @@
     if (m) { showTab("cases"); openModal(decodeURIComponent(m[1])); }
   }
   window.addEventListener("hashchange", openFromHash);
-  if (PANELS.includes(location.hash.slice(1))) showTab(location.hash.slice(1));
+  if (PANELS.includes(location.hash.slice(1))) showTab(location.hash.slice(1)); else if (!location.hash.startsWith("#app=")) showTab("about");
 
   searchEl && searchEl.addEventListener("input", () => { state.query = searchEl.value.trim(); renderGrid(); });
 

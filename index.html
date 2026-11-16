@@ -19,10 +19,10 @@
       <span><span data-cfg="orgName">경기도수학교육연구회</span><small data-cfg="eventName">2026 경기 페스타</small></span>
     </a>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="#cases" data-tab-link="cases">사례 체험</a>
-      <a href="#howto" data-tab-link="howto">만드는 방법</a>
       <a href="#about" data-tab-link="about">소개</a>
       <a href="#booth" data-tab-link="booth">부스 이용 순서</a>
+      <a href="#cases" data-tab-link="cases">사례 체험</a>
+      <a href="#howto" data-tab-link="howto">만드는 방법</a>
       <a class="admin-link" href="admin.html">관리자</a>
     </nav>
   </div>
@@ -84,17 +84,17 @@
   <div class="wrap layout">
   <aside class="side-tabs">
     <div class="tabbar" role="tablist" aria-label="페이지 구분">
-      <button class="main-tab" role="tab" data-tab="cases" aria-selected="true">사례 체험</button>
-      <button class="main-tab" role="tab" data-tab="howto" aria-selected="false">만드는 방법</button>
-      <button class="main-tab" role="tab" data-tab="about" aria-selected="false">소개</button>
+      <button class="main-tab" role="tab" data-tab="about" aria-selected="true">소개</button>
       <button class="main-tab" role="tab" data-tab="booth" aria-selected="false">부스 이용 순서</button>
+      <button class="main-tab" role="tab" data-tab="cases" aria-selected="false">사례 체험</button>
+      <button class="main-tab" role="tab" data-tab="howto" aria-selected="false">만드는 방법</button>
     </div>
     <div class="side-note"><b>휴대폰으로 보려면</b>테이블의 QR을 찍으면 작품 소개가 바로 열립니다. 따로 설치하거나 로그인할 것은 없습니다.</div>
   </aside>
   <div class="content">
 
   <!-- ═══ 탭 1 · 사례 체험 ═══ -->
-  <section class="tab-panel" id="cases" role="tabpanel">
+  <section class="tab-panel" id="cases" role="tabpanel" hidden>
     <div class="wrap">
       <div class="sec-head">
         <div>
@@ -263,7 +263,7 @@
   </section>
 
   <!-- ═══ 탭 3 · 소개 ═══ -->
-  <section class="tab-panel" id="about" role="tabpanel" hidden>
+  <section class="tab-panel" id="about" role="tabpanel">
     <div class="wrap">
       <div class="sec-head">
         <div>

@@ -190,12 +190,11 @@
       const cat = CATS[r.category];
       const card = el("button", { class: "card " + r.category, type: "button", "aria-label": r.title + " 자세히 보기", onclick: () => openModal(r.id) });
       card.innerHTML =
-        '<span class="num">' + String(i + 1).padStart(2, "0") + "</span>" +
         '<div><span class="chip ' + r.category + '">' + esc(cat.short) + "</span></div>" +
         "<h3>" + esc(r.title) + "</h3>" +
         '<p class="sub">' + esc(r.subtitle) + "</p>" +
         (r.tagList.length ? '<div class="tags">' + r.tagList.slice(0, 4).map(t => "<span>" + esc(t) + "</span>").join("") + "</div>" : "") +
-        '<div class="foot">' + (r.url ? '<span class="go">바로 체험 →</span>' : '<span class="nolink">부스에서 시연</span>') + '<span class="more">자세히 보기</span></div>';
+        '<div class="foot">' + (r.url ? '<span class="go">바로 열어 보기</span>' : '<span class="nolink">부스에서 시연</span>') + '<span class="more">자세히</span></div>';
       grid.append(card);
     });
   }
@@ -213,16 +212,16 @@
       "<h2>" + esc(r.title) + "</h2>" +
       '<p class="sub">' + esc(r.subtitle) + "</p>" +
       '<div class="actions">' +
-      (r.url ? '<a class="btn" href="' + esc(r.url) + '" target="_blank" rel="noopener">지금 체험하기 ↗</a><button class="btn outline copy-link">링크 복사</button>' : '<span class="btn" disabled>체험 링크 준비 중</span>') +
+      (r.url ? '<a class="btn" href="' + esc(r.url) + '" target="_blank" rel="noopener">열어 보기</a><button class="btn outline copy-link">링크 복사</button>' : '<span class="btn" disabled>체험 링크 준비 중</span>') +
       '<button class="btn outline copy-share">이 페이지 공유</button>' +
       "</div></div>" +
       '<div class="qr-box"><div class="qr" id="modal-qr"></div>휴대폰으로 스캔</div></div>' +
       '<div class="dtabs" role="tablist">' +
-      '<button class="dtab" role="tab" data-dtab="case" aria-selected="true">🧪 사례 소개</button>' +
-      '<button class="dtab" role="tab" data-dtab="howto" aria-selected="false">🛠 만드는 방법</button>' +
+      '<button class="dtab" role="tab" data-dtab="case" aria-selected="true">사례 소개</button>' +
+      '<button class="dtab" role="tab" data-dtab="howto" aria-selected="false">만드는 방법</button>' +
       "</div>" +
-      '<div class="dpanel" data-dpanel="case">' + detail("🎯 목적", r.purpose) + detail("∑ 수학적 내용", r.math) + detail("🧩 프로그램 설명", r.description, true) + "</div>" +
-      '<div class="dpanel" data-dpanel="howto" hidden>' + detail("🛠 만드는 방법 (단계별)", r.howto, true) +
+      '<div class="dpanel" data-dpanel="case">' + detail("목적", r.purpose) + detail("수학적 내용", r.math) + detail("프로그램 설명", r.description, true) + "</div>" +
+      '<div class="dpanel" data-dpanel="howto" hidden>' + detail("만드는 방법", r.howto, true) +
       (r.category === "vibe" ? '<p class="small muted wide">※ 프롬프트 전문과 설치 표는 「만드는 방법」 탭에서 복사할 수 있습니다. <a href="#howto" class="goto-howto"><u>만드는 방법 탭으로 →</u></a></p>' : "") +
       "</div>" +
       '<div class="meta">' + (r.maker ? "<span>제작 · " + esc(r.maker) + "</span>" : "") + (r.tagList.length ? "<span>태그 · " + esc(r.tagList.join(", ")) + "</span>" : "") + "</div>" +

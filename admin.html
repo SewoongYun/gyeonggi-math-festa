@@ -6,13 +6,14 @@
 <title>관리자 · 작품 등록 | 경기도수학교육연구회 부스</title>
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700;900&display=swap">
 <link rel="stylesheet" href="assets/style.css">
 <script src="config.js"></script>
 </head>
 <body>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="index.html"><span class="logo">∑</span><span><span data-cfg="orgName">경기도수학교육연구회</span><small>관리자 · 작품 등록</small></span></a>
+    <a class="brand" href="index.html"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" rx="9" fill="#fff" stroke="#1e3a8a" stroke-width="2"/><path d="M9 30H31M12 10V30" stroke="#1e3a8a" stroke-width="1.8" stroke-linecap="round"/><path d="M12 27C16 27 18 12 22 12S28 24 31 15" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round"/></svg><span><span data-cfg="orgName">경기도수학교육연구회</span><small>관리자 · 작품 등록</small></span></a>
     <nav class="nav"><a href="index.html">← 사이트로</a><a href="print.html">QR 인쇄용</a></nav>
   </div>
 </header>
@@ -20,7 +21,7 @@
 <!-- 비밀번호 게이트 -->
 <div class="gate" id="gate">
   <form class="gate-card" id="gate-form" autocomplete="off">
-    <div class="gate-logo">🔐</div>
+    
     <h2>관리자 확인</h2>
     <p class="muted small">작품을 추가·수정하려면 관리자 비밀번호가 필요합니다.<br>(Apps Script의 ADMIN_KEY와 같습니다)</p>
     <input id="gate-pw" type="password" placeholder="비밀번호" autocomplete="current-password" required autofocus>
@@ -102,19 +103,19 @@
         <input id="f-url" name="url" type="url" placeholder="https://…">
       </div>
       <div class="field full">
-        <label for="f-purpose">🎯 목적</label>
+        <label for="f-purpose">목적</label>
         <textarea id="f-purpose" name="purpose" placeholder="이 자료로 학생이 무엇을 발견·경험하게 하려는지"></textarea>
       </div>
       <div class="field full">
-        <label for="f-math">∑ 수학적 내용</label>
+        <label for="f-math">수학적 내용</label>
         <textarea id="f-math" name="math" placeholder="단원·개념·핵심 식. 줄바꿈과 '- ' 목록을 그대로 보여 줍니다"></textarea>
       </div>
       <div class="field full">
-        <label for="f-description">🧩 프로그램 설명</label>
+        <label for="f-description">프로그램 설명</label>
         <textarea id="f-description" name="description" placeholder="주요 기능을 1) 2) 3) 으로"></textarea>
       </div>
       <div class="field full">
-        <label for="f-howto">🛠 만드는 방법</label>
+        <label for="f-howto">만드는 방법</label>
         <textarea id="f-howto" name="howto" style="min-height:140px" placeholder="1. 도구 열기 → 2. 프롬프트 → 3. 점검 → 4. 배포 순으로"></textarea>
       </div>
       <div class="field">

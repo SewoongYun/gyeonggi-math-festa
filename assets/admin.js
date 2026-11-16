@@ -169,10 +169,10 @@
     modal.querySelector(".dialog").innerHTML =
       '<button class="close" aria-label="닫기">×</button>' +
       '<div class="top"><div><span class="chip ' + r.category + '">' + esc(cat.label) + '</span><h2>' + esc(r.title || "(제목)") + '</h2><p class="sub">' + esc(r.subtitle) + "</p>" +
-      '<div class="actions">' + (r.url ? '<a class="btn primary" href="' + esc(r.url) + '" target="_blank" rel="noopener">지금 체험하기 ↗</a>' : '<span class="btn" disabled>체험 링크 준비 중</span>') + "</div></div>" +
+      '<div class="actions">' + (r.url ? '<a class="btn primary" href="' + esc(r.url) + '" target="_blank" rel="noopener">열어 보기</a>' : '<span class="btn" disabled>체험 링크 준비 중</span>') + "</div></div>" +
       '<div class="qr-box"><div class="qr" id="pv-qr"></div>휴대폰으로 스캔</div></div>' +
       '<div class="detail-grid">' +
-      ["🎯 목적|purpose", "∑ 수학적 내용|math", "🧩 프로그램 설명|description", "🛠 만드는 방법|howto"].map(s => { const [t, k] = s.split("|"); return '<section class="detail"><h4>' + t + '</h4><div class="body">' + esc(r[k]) + "</div></section>"; }).join("") +
+      ["목적|purpose", "수학적 내용|math", "프로그램 설명|description", "만드는 방법|howto"].map(s => { const [t, k] = s.split("|"); return '<section class="detail"><h4>' + t + '</h4><div class="body">' + esc(r[k]) + "</div></section>"; }).join("") +
       "</div>";
     makeQR(modal.querySelector("#pv-qr"), r.url, 134);
     modal.querySelector(".close").onclick = () => { modal.hidden = true; };

@@ -82,8 +82,8 @@
       try {
         const sep = CFG.apiUrl.includes("?") ? "&" : "?";
         const data = await fetchJSON(CFG.apiUrl + sep + "action=list&_=" + Date.now());
-        if (data && data.ok && Array.isArray(data.rows)) return { rows: data.rows.map(normalizeRow), source: "sheet", note: "구글 시트 연동 중 (실시간)" };
-        attempts.push("API 응답 형식 오류");
+        if (data && data.ok && Array.isArray(data.rows) && data.rows.length) return { rows: data.rows.map(normalizeRow), source: "sheet", note: "구글 시트 연동 중 (실시간)" };
+        attempts.push(data && data.ok ? "API: 행 0개(스크립트가 다른 시트를 보고 있음)" : "API 응답 형식 오류");
       } catch (e) { attempts.push("API: " + e.message); }
     }
     if (CFG.csvUrl) {

@@ -11,6 +11,9 @@
  *  ※ 코드를 고친 뒤에는 [배포 → 배포 관리 → 연필 → 새 버전] 으로 다시 배포해야 반영됩니다.
  */
 
+// 작품 데이터가 있는 스프레드시트 ID (주소창의 /d/ 와 /edit 사이 값).
+// 이 값이 있으면 스크립트가 어느 시트에 붙어 있든 항상 이 시트를 읽고 씁니다.
+const SPREADSHEET_ID = '1Za1qTX3PCyx6UhR_yaELus6qeQpiHFf06iAfwpfEaOg';
 const SHEET_NAME = '작품목록';
 const HEADERS = ['ID', '구분', '제목', '한줄소개', '체험링크', '목적', '수학적 내용', '프로그램 설명', '만드는 방법', '제작자', '태그', '공개', '순서', '수정일시'];
 const KEY_TO_HEADER = {
@@ -75,7 +78,7 @@ function importSeed(url) {
 
 /* ───────── 내부 함수 ───────── */
 function getSheet_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SPREADSHEET_ID ? SpreadsheetApp.openById(SPREADSHEET_ID) : SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) sh = ss.insertSheet(SHEET_NAME);
   return sh;

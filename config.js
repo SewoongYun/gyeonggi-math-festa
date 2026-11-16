@@ -10,7 +10,7 @@ window.SITE_CONFIG = {
   // ① 구글 시트 연동 (Apps Script 웹앱 URL)
   //    apps-script/Code.gs 를 배포한 뒤 나온 /exec 주소를 넣으세요.
   //    비워 두면 data/apps.json 의 기본 데이터를 사용합니다.
-  apiUrl: "",
+  apiUrl: "https://script.google.com/macros/s/AKfycbwj37mrKpxhfaVL6HthYOGmh_IToeWpR2x2FyNn5Df1QqRkteulFXN6ptRxy7AvDzUKXA/exec",
 
   // ② (선택) Apps Script 없이 '웹에 게시'한 시트의 CSV 주소로만 읽기
   //    파일 → 공유 → 웹에 게시 → 시트 선택 → CSV → 게시 후 주소 붙여넣기

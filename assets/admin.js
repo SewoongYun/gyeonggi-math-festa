@@ -25,6 +25,7 @@
     rows = r.rows; source = r.source;
     if (source === "sheet") setStatus("ok", "✅ 구글 시트(Apps Script) 연결됨 — 저장하면 시트에 바로 반영됩니다.");
     else if (!CFG.apiUrl) setStatus("warn", "⚠ config.js의 apiUrl이 비어 있습니다. 아래 '처음 연결하는 방법'을 따라 연결하거나, 'data/apps.json 내려받기'로 수동 관리하세요.");
+    else if (source === "csv") setStatus("warn", "⚠ 시트를 읽고는 있지만 Apps Script API가 비어 있거나 실패해 저장은 되지 않습니다. Code.gs의 SPREADSHEET_ID와 배포(새 버전)를 확인하세요.\n" + (r.errors || []).join(" / "));
     else setStatus("warn", "⚠ API 연결 실패 — 기본 데이터를 표시 중입니다. 배포 URL과 '모든 사용자' 액세스 설정을 확인하세요.\n" + (r.errors || []).join(" / "));
     document.getElementById("save-btn").textContent = source === "sheet" ? "시트에 저장" : "목록에 반영(로컬)";
     renderList();

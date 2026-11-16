@@ -159,7 +159,7 @@
   document.querySelectorAll(".main-tab").forEach(b => b.addEventListener("click", () => {
     showTab(b.dataset.tab);
     history.replaceState(null, "", "#" + b.dataset.tab);
-    const bar = document.querySelector(".tabbar-wrap");
+    const bar = document.querySelector(".layout");
     const y = bar.getBoundingClientRect().top + window.scrollY - 70;
     if (window.scrollY > y) window.scrollTo({ top: y, behavior: "smooth" });
   }));

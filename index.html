@@ -78,15 +78,18 @@
     </div>
   </section>
 
-  <!-- ═══ 탭 바 ═══ -->
-  <div class="tabbar-wrap"><div class="wrap">
+  <!-- ═══ 본문: PC는 왼쪽 사이드 탭 + 내용, 모바일은 가로 탭 ═══ -->
+  <div class="wrap layout">
+  <aside class="side-tabs">
     <div class="tabbar" role="tablist" aria-label="페이지 구분">
       <button class="main-tab" role="tab" data-tab="cases" aria-selected="true"><span class="ico">🧪</span>사례 체험</button>
       <button class="main-tab" role="tab" data-tab="howto" aria-selected="false"><span class="ico">🛠</span>만드는 방법</button>
       <button class="main-tab" role="tab" data-tab="about" aria-selected="false"><span class="ico">📘</span>소개</button>
       <button class="main-tab" role="tab" data-tab="booth" aria-selected="false"><span class="ico">🧭</span>부스 이용 순서</button>
     </div>
-  </div></div>
+    <div class="side-note"><b>부스에서 바로</b>휴대폰으로 QR을 찍으면 각 작품 소개 페이지가 열립니다. 설치·로그인 없음.</div>
+  </aside>
+  <div class="content">
 
   <!-- ═══ 탭 1 · 사례 체험 ═══ -->
   <section class="tab-panel" id="cases" role="tabpanel">
@@ -326,6 +329,9 @@
       </div>
     </div>
   </section>
+
+  </div><!-- /.content -->
+  </div><!-- /.layout -->
 
 </main>
 

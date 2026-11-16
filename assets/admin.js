@@ -13,6 +13,49 @@
   keyInput.value = sessionStorage.getItem("ADMIN_KEY") || "";
   keyInput.addEventListener("input", () => sessionStorage.setItem("ADMIN_KEY", keyInput.value));
 
+  /* ── 비밀번호 게이트 ──
+   * Apps Script가 연결돼 있으면 서버의 ADMIN_KEY로 검증한다(정확한 검증).
+   * 연결 전에는 config.js의 adminPasswordHash(SHA-256)와 비교한다(간이 보호).
+   */
+  const gate = document.getElementById("gate");
+  const gateForm = document.getElementById("gate-form");
+  const gateMsg = document.getElementById("gate-msg");
+  const adminMain = document.getElementById("admin-main");
+  async function sha256(s) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(s));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  async function verifyKey(key) {
+    if (CFG.apiUrl) {
+      const res = await fetch(CFG.apiUrl, { method: "POST", body: JSON.stringify({ action: "verify", key }) });
+      const data = await res.json();
+      // 구버전 스크립트는 'unknown action: verify'를 돌려주는데, 키 검사를 통과한 뒤에만 나오므로 성공으로 본다.
+      if (data.ok) return true;
+      if (/unknown action/i.test(data.error || "")) return true;
+      return false;
+    }
+    if (CFG.adminPasswordHash) return (await sha256(key)) === CFG.adminPasswordHash.toLowerCase();
+    return true; // 아무 설정도 없으면 막지 않는다(시트 미연결 상태).
+  }
+  function unlock() { gate.hidden = true; adminMain.hidden = false; }
+  gateForm.addEventListener("submit", async e => {
+    e.preventDefault();
+    const pw = document.getElementById("gate-pw").value.trim();
+    const btn = document.getElementById("gate-btn"); btn.disabled = true; gateMsg.textContent = "확인 중…"; gateMsg.style.color = "";
+    try {
+      if (await verifyKey(pw)) {
+        sessionStorage.setItem("ADMIN_OK", "1"); sessionStorage.setItem("ADMIN_KEY", pw); keyInput.value = pw;
+        unlock(); refresh().then(() => fill(null));
+      } else {
+        gateMsg.style.color = "#d2452a"; gateMsg.textContent = "비밀번호가 올바르지 않습니다.";
+        gateForm.classList.remove("shake"); void gateForm.offsetWidth; gateForm.classList.add("shake");
+      }
+    } catch (err) { gateMsg.style.color = "#d2452a"; gateMsg.textContent = "확인 실패: " + err.message; }
+    btn.disabled = false;
+  });
+  const alreadyIn = sessionStorage.getItem("ADMIN_OK") === "1";
+  if (alreadyIn) unlock();
+
   const openSheet = document.getElementById("open-sheet");
   if (CFG.sheetEditUrl) openSheet.href = CFG.sheetEditUrl; else openSheet.remove();
   document.querySelectorAll("[data-cfg]").forEach(n => { if (CFG[n.dataset.cfg]) n.textContent = CFG[n.dataset.cfg]; });
@@ -137,5 +180,5 @@
     modal.hidden = false;
   });
 
-  refresh().then(() => fill(null));
+  if (alreadyIn) refresh().then(() => fill(null));
 })();

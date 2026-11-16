@@ -20,6 +20,11 @@ window.SITE_CONFIG = {
   // ③ 관리자 페이지에서 '시트 열기' 버튼에 쓸 구글 시트 편집 주소
   sheetEditUrl: "https://docs.google.com/spreadsheets/d/1Za1qTX3PCyx6UhR_yaELus6qeQpiHFf06iAfwpfEaOg/edit",
 
+  // ④ 관리자 페이지 비밀번호
+  //    apiUrl 이 있으면 Apps Script 의 ADMIN_KEY 로 검증하므로 여기는 비워 둡니다.
+  //    Apps Script 없이 쓸 때만: 비밀번호의 SHA-256 해시를 넣으면 간이 보호가 됩니다.
+  adminPasswordHash: "",
+
   // 활동기록집 등 참고 자료 링크(비워도 됩니다)
   recordBookUrl: ""
 };

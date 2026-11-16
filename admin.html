@@ -17,7 +17,20 @@
   </div>
 </header>
 
-<main class="wrap admin-layout">
+<!-- 비밀번호 게이트 -->
+<div class="gate" id="gate">
+  <form class="gate-card" id="gate-form" autocomplete="off">
+    <div class="gate-logo">🔐</div>
+    <h2>관리자 확인</h2>
+    <p class="muted small">작품을 추가·수정하려면 관리자 비밀번호가 필요합니다.<br>(Apps Script의 ADMIN_KEY와 같습니다)</p>
+    <input id="gate-pw" type="password" placeholder="비밀번호" autocomplete="current-password" required autofocus>
+    <button class="btn block" type="submit" id="gate-btn">들어가기</button>
+    <p class="small" id="gate-msg" style="min-height:1.4em;margin:10px 0 0;color:#d2452a"></p>
+    <a class="small muted" href="index.html">← 사이트로 돌아가기</a>
+  </form>
+</div>
+
+<main class="wrap admin-layout" id="admin-main" hidden>
 
   <aside>
     <div class="panel">

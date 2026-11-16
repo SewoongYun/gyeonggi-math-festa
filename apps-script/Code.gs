@@ -37,6 +37,7 @@ function doPost(e) {
     lock.waitLock(10000);
     const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (!checkKey_(body.key)) return json_({ ok: false, error: '관리자 키가 올바르지 않습니다.' });
+    if (body.action === 'verify') return json_({ ok: true });           // 관리자 페이지 비밀번호 확인용
     if (body.action === 'upsert') upsert_(body.row || {});
     else if (body.action === 'delete') remove_(body.id);
     else return json_({ ok: false, error: 'unknown action: ' + body.action });

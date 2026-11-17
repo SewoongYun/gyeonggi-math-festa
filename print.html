@@ -12,8 +12,8 @@
 <body>
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="index.html"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect x="1.5" y="1.5" width="37" height="37" rx="9" fill="#fff" stroke="#1e3a8a" stroke-width="2"/><path d="M9 30H31M12 10V30" stroke="#1e3a8a" stroke-width="1.8" stroke-linecap="round"/><path d="M12 27C16 27 18 12 22 12S28 24 31 15" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round"/></svg><span><span data-cfg="orgName">경기도수학교육연구회</span><small>QR 인쇄용 시트</small></span></a>
-    <nav class="nav"><a href="index.html">← 사이트로</a><button class="btn sm primary" onclick="print()">🖨 인쇄</button></nav>
+    <a class="brand" href="index.html"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect class="logo-frame" x="1.5" y="1.5" width="37" height="37" rx="9" stroke-width="2"/><path class="logo-axis" d="M9 30H31M12 10V30" stroke-width="1.8" stroke-linecap="round"/><path class="logo-curve" d="M12 27C16 27 18 12 22 12S28 24 31 15" stroke-width="2.4" stroke-linecap="round"/></svg><span><span data-cfg="orgName">경기도수학교육연구회</span><small>QR 인쇄용 시트</small></span></a>
+    <nav class="nav"><a href="index.html">사이트로</a><button class="btn sm primary" onclick="print()">인쇄</button></nav>
   </div>
 </header>
 <main class="wrap">
@@ -35,7 +35,7 @@
     grid.innerHTML = "";
     rows.filter(r => r.visible && r.url).sort((a, b) => a.order - b.order).forEach(r => {
       const card = document.createElement("div"); card.className = "print-card";
-      card.innerHTML = '<span class="chip ' + r.category + '">' + esc(CATS[r.category].short) + '</span><div class="qr"></div><h3>' + esc(r.title) + '</h3><p>' + esc(r.subtitle) + '</p><p class="small" style="margin-top:6px;color:#9aa5c0">' + esc(mode === "site" ? "소개 → 체험" : "앱 바로 열기") + "</p>";
+      card.innerHTML = '<span class="chip ' + r.category + '">' + esc(CATS[r.category].short) + '</span><div class="qr"></div><h3>' + esc(r.title) + '</h3><p>' + esc(r.subtitle) + '</p><p class="small muted" style="margin-top:6px">' + esc(mode === "site" ? "소개를 거쳐 열기" : "앱 바로 열기") + "</p>";
       grid.append(card);
       makeQR(card.querySelector(".qr"), mode === "site" ? base + "#app=" + encodeURIComponent(r.id) : r.url, 170);
     });

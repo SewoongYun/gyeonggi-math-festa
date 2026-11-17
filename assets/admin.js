@@ -41,16 +41,16 @@
   gateForm.addEventListener("submit", async e => {
     e.preventDefault();
     const pw = document.getElementById("gate-pw").value.trim();
-    const btn = document.getElementById("gate-btn"); btn.disabled = true; gateMsg.textContent = "확인 중…"; gateMsg.style.color = "";
+    const btn = document.getElementById("gate-btn"); btn.disabled = true; gateMsg.textContent = "확인 중…"; gateMsg.classList.remove("error");
     try {
       if (await verifyKey(pw)) {
         sessionStorage.setItem("ADMIN_OK", "1"); sessionStorage.setItem("ADMIN_KEY", pw); keyInput.value = pw;
         unlock(); refresh().then(() => fill(null));
       } else {
-        gateMsg.style.color = "#d2452a"; gateMsg.textContent = "비밀번호가 올바르지 않습니다.";
+        gateMsg.classList.add("error"); gateMsg.textContent = "비밀번호가 올바르지 않습니다.";
         gateForm.classList.remove("shake"); void gateForm.offsetWidth; gateForm.classList.add("shake");
       }
-    } catch (err) { gateMsg.style.color = "#d2452a"; gateMsg.textContent = "확인 실패: " + err.message; }
+    } catch (err) { gateMsg.classList.add("error"); gateMsg.textContent = "확인 실패: " + err.message; }
     btn.disabled = false;
   });
   const alreadyIn = sessionStorage.getItem("ADMIN_OK") === "1";
@@ -66,10 +66,10 @@
     list.innerHTML = '<div class="muted small">불러오는 중…</div>';
     const r = await loadApps();
     rows = r.rows; source = r.source;
-    if (source === "sheet") setStatus("ok", "✅ 구글 시트(Apps Script) 연결됨 — 저장하면 시트에 바로 반영됩니다.");
-    else if (!CFG.apiUrl) setStatus("warn", "⚠ config.js의 apiUrl이 비어 있습니다. 아래 '처음 연결하는 방법'을 따라 연결하거나, 'data/apps.json 내려받기'로 수동 관리하세요.");
-    else if (source === "csv") setStatus("warn", "⚠ 시트를 읽고는 있지만 Apps Script API가 비어 있거나 실패해 저장은 되지 않습니다. Code.gs의 SPREADSHEET_ID와 배포(새 버전)를 확인하세요.\n" + (r.errors || []).join(" / "));
-    else setStatus("warn", "⚠ API 연결 실패 — 기본 데이터를 표시 중입니다. 배포 URL과 '모든 사용자' 액세스 설정을 확인하세요.\n" + (r.errors || []).join(" / "));
+    if (source === "sheet") setStatus("ok", "구글 시트(Apps Script) 연결됨. 저장하면 시트에 바로 반영됩니다.");
+    else if (!CFG.apiUrl) setStatus("warn", "config.js의 apiUrl이 비어 있습니다. 아래 '연결 방법'을 따라 연결하거나, 'data/apps.json 내려받기'로 수동 관리하세요.");
+    else if (source === "csv") setStatus("warn", "시트를 읽고는 있지만 Apps Script API가 비어 있거나 실패해 저장은 되지 않습니다. Code.gs의 SPREADSHEET_ID와 배포(새 버전)를 확인하세요.\n" + (r.errors || []).join(" / "));
+    else setStatus("warn", "API 연결 실패. 기본 데이터를 표시 중입니다. 배포 URL과 '모든 사용자' 액세스 설정을 확인하세요.\n" + (r.errors || []).join(" / "));
     document.getElementById("save-btn").textContent = source === "sheet" ? "시트에 저장" : "목록에 반영(로컬)";
     renderList();
   }
@@ -134,7 +134,7 @@
         toast("목록에 반영했습니다 (시트 미연결: JSON 내려받기로 저장하세요)");
       }
       renderList(); fill(rows.find(x => x.id === row.id));
-      msg.textContent = "저장 완료 · " + new Date().toLocaleTimeString("ko-KR");
+      msg.textContent = "저장 완료, " + new Date().toLocaleTimeString("ko-KR");
     } catch (err) { msg.textContent = "오류: " + err.message; }
     btn.disabled = false;
   });

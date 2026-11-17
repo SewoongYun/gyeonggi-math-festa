@@ -99,7 +99,7 @@
     }
     try {
       const rows = (await fetchJSON("data/apps.json")).map(normalizeRow);
-      return { rows, source: "local", note: attempts.length ? "시트 연결 실패 → 기본 데이터 표시" : "기본 데이터(data/apps.json)", errors: attempts };
+      return { rows, source: "local", note: attempts.length ? "시트 연결 실패, 기본 데이터 표시" : "기본 데이터(data/apps.json)", errors: attempts };
     } catch (e) {
       return { rows: [], source: "none", note: "데이터를 불러오지 못했습니다", errors: attempts.concat(e.message) };
     }
@@ -222,9 +222,9 @@
       "</div>" +
       '<div class="dpanel" data-dpanel="case">' + detail("목적", r.purpose) + detail("수학적 내용", r.math) + detail("프로그램 설명", r.description, true) + "</div>" +
       '<div class="dpanel" data-dpanel="howto" hidden>' + detail("만드는 방법", r.howto, true) +
-      (r.category === "vibe" ? '<p class="small muted wide">※ 프롬프트 전문과 설치 표는 「만드는 방법」 탭에서 복사할 수 있습니다. <a href="#howto" class="goto-howto"><u>만드는 방법 탭으로 →</u></a></p>' : "") +
+      (r.category === "vibe" ? '<p class="small muted wide">※ 프롬프트 전문과 설치 표는 「만드는 방법」 탭에서 복사할 수 있습니다. <a href="#howto" class="goto-howto"><u>만드는 방법 탭으로 가기</u></a></p>' : "") +
       "</div>" +
-      '<div class="meta">' + (r.maker ? "<span>제작 · " + esc(r.maker) + "</span>" : "") + (r.tagList.length ? "<span>태그 · " + esc(r.tagList.join(", ")) + "</span>" : "") + "</div>" +
+      '<div class="meta">' + (r.maker ? "<span>제작: " + esc(r.maker) + "</span>" : "") + (r.tagList.length ? "<span>태그: " + esc(r.tagList.join(", ")) + "</span>" : "") + "</div>" +
       (CFG.sheetEditUrl ? '<div class="edit-hint">✎ 이 내용은 <a href="' + esc(CFG.sheetEditUrl) + '" target="_blank" rel="noopener"><u>구글 시트</u></a>에서 수정합니다. (ID: ' + esc(r.id) + ")</div>" : "");
     makeQR(modal.querySelector("#modal-qr"), r.url, 134);
     modal.querySelector(".close").onclick = closeModal;

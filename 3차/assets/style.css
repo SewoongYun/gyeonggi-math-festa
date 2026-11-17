@@ -550,3 +550,56 @@ code { background: var(--bg-2); padding: 1px 7px; border-radius: 6px; font-size:
 .gate { background: var(--bg); }
 .gate::before, .gate::after { display: none; }
 .gate-card { border: 1px solid var(--ink); box-shadow: none; }
+
+/* ═══ 3차 가독성 보강: 글자 크기·대비를 올리고 핵심 문구를 강조 ═══ */
+:root {
+  --muted: #4c525b;            /* 보조 글자를 한 단계 진하게 */
+  --mark: #d7e1ff;             /* 강조 문구 밑 형광 띠 */
+  --plot-sin: rgba(63,103,240,.55);
+  --plot-cos: rgba(240,120,84,.5);
+  --plot-label: rgba(20,23,28,.38);
+  --veil: rgba(245,246,241,.95);
+}
+body { line-height: 1.75; }
+
+/* 본문 속 강조: 진한 먹색 + x-height 뒤 옅은 파랑 띠 */
+strong { font-weight: 700; color: var(--ink); background: linear-gradient(transparent 58%, var(--mark) 58%, var(--mark) 92%, transparent 92%); padding: 0 2px; }
+.btn strong, .tip strong, .quote strong, .site-footer strong, .flow strong { background: none; padding: 0; }
+
+/* 첫 화면: 글자 둘레를 더 넓고 진하게 비우고, 배경 그래프와 기호는 한 걸음 뒤로 */
+.hero::after { background: radial-gradient(56% 50% at 50% 42%, var(--veil) 0%, var(--veil) 55%, transparent 100%); }
+.math-symbols .c1, .math-symbols .c2, .math-symbols .c3 { opacity: .35; }
+.hero .lead { color: var(--ink); font-size: clamp(1.08rem, 1.6vw, 1.3rem); font-weight: 500; line-height: 1.7; max-width: 38ch; }
+
+/* 섹션 머리: 제목은 크게, 설명은 진하게 */
+.sec-head h2 { font-size: clamp(2.1rem, 3.8vw, 3rem); }
+.sec-head p { color: var(--ink-2); font-size: 1.1rem; line-height: 1.75; }
+
+/* 작은 글자들을 읽히는 크기로 */
+.small { font-size: .98rem; }
+.card h3 { font-size: 1.25rem; font-weight: 800; }
+.card .sub { color: var(--ink-2); font-size: 1rem; line-height: 1.65; }
+.card .tags span { font-size: .82rem; }
+.card .foot .go { font-size: .98rem; }
+.pillar p { color: var(--ink-2); font-size: 1rem; }
+.step h3 { font-size: 1.25rem; }
+.step p { color: var(--ink-2); font-size: 1rem; line-height: 1.7; }
+.booth-note div { font-size: 1rem; }
+.booth-note b { font-size: 1.05rem; }
+.compare h3 { font-size: 1.4rem; }
+.compare p.small, .compare .muted.small { color: var(--ink-2); }
+.mission div { font-size: .98rem; }
+.mission div b { font-size: 1.05rem; }
+.table { font-size: .98rem; }
+.flow .node span { color: var(--ink-2); font-size: .98rem; }
+.flow .node strong { background: none; padding: 0; font-size: 1.2rem; }
+.practice-card > summary p { color: var(--ink-2); font-size: 1rem; }
+.practice-card .content > p { font-size: 1.02rem; }
+.detail .body { font-size: 1.02rem; color: var(--ink); }
+.detail h4 { font-size: .95rem; }
+.note { font-size: .92rem; color: var(--ink-2); }
+.quote p { font-size: clamp(1.15rem, 1.8vw, 1.35rem); line-height: 1.75; }
+strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 1280px) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .steps { grid-template-columns: minmax(0, 1fr); } }

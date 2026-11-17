@@ -3,48 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>QR 인쇄용 시트 | 경기도수학교육연구회 부스</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="assets/style.css">
-<script src="config.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>경기도수학교육연구회 부스 안내</title>
+<meta name="description" content="2026 경기 페스타 경기도수학교육연구회 부스 안내 사이트. 최신 버전으로 이동합니다.">
+<script>location.replace("2차/print.html" + location.search + location.hash);</script>
+<meta http-equiv="refresh" content="0; url=2차/print.html">
 </head>
 <body>
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="index.html"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect class="logo-frame" x="1.5" y="1.5" width="37" height="37" rx="9" stroke-width="2"/><path class="logo-axis" d="M9 30H31M12 10V30" stroke-width="1.8" stroke-linecap="round"/><path class="logo-curve" d="M12 27C16 27 18 12 22 12S28 24 31 15" stroke-width="2.4" stroke-linecap="round"/></svg><span><span data-cfg="orgName">경기도수학교육연구회</span><small>QR 인쇄용 시트</small></span></a>
-    <nav class="nav"><a href="index.html">사이트로</a><button class="btn sm primary" onclick="print()">인쇄</button></nav>
-  </div>
-</header>
-<main class="wrap">
-  <p class="muted small no-print" style="margin-top:18px">체험 링크가 있는 작품만 QR로 만듭니다. 각 QR은 해당 작품의 <b>소개 페이지</b>(이 사이트)로 연결되고, 거기서 '열어 보기'를 누르면 앱이 열립니다. 앱으로 바로 연결하려면 아래 전환 버튼을 누르세요.</p>
-  <div class="no-print" style="display:flex;gap:8px;margin-bottom:6px">
-    <button class="tab" id="mode-site" aria-selected="true">소개 페이지로 연결</button>
-    <button class="tab" id="mode-app" aria-selected="false">앱으로 바로 연결</button>
-  </div>
-  <div class="print-grid" id="print-grid"></div>
-</main>
-<script src="assets/app.js"></script>
-<script>
-(function () {
-  const { CATS, loadApps, esc, makeQR } = window.AppData;
-  const grid = document.getElementById("print-grid");
-  let rows = [], mode = "site";
-  const base = location.href.replace(/print\.html.*$/, "index.html");
-  function render() {
-    grid.innerHTML = "";
-    rows.filter(r => r.visible && r.url).sort((a, b) => a.order - b.order).forEach(r => {
-      const card = document.createElement("div"); card.className = "print-card";
-      card.innerHTML = '<span class="chip ' + r.category + '">' + esc(CATS[r.category].short) + '</span><div class="qr"></div><h3>' + esc(r.title) + '</h3><p>' + esc(r.subtitle) + '</p><p class="small muted" style="margin-top:6px">' + esc(mode === "site" ? "소개를 거쳐 열기" : "앱 바로 열기") + "</p>";
-      grid.append(card);
-      makeQR(card.querySelector(".qr"), mode === "site" ? base + "#app=" + encodeURIComponent(r.id) : r.url, 170);
-    });
-  }
-  document.getElementById("mode-site").onclick = function () { mode = "site"; this.setAttribute("aria-selected", "true"); document.getElementById("mode-app").setAttribute("aria-selected", "false"); render(); };
-  document.getElementById("mode-app").onclick = function () { mode = "app"; this.setAttribute("aria-selected", "true"); document.getElementById("mode-site").setAttribute("aria-selected", "false"); render(); };
-  document.querySelectorAll("[data-cfg]").forEach(n => { const v = (window.SITE_CONFIG || {})[n.dataset.cfg]; if (v) n.textContent = v; });
-  loadApps().then(r => { rows = r.rows; render(); });
-})();
-</script>
+<p><a href="2차/print.html">부스 안내 사이트(2차)로 이동</a></p>
+<p><a href="1차/print.html">이전 버전(1차) 보기</a></p>
 </body>
 </html>

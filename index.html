@@ -8,8 +8,8 @@
 <noscript><style>.tab-panel[hidden] { display: block; }</style></noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=20261117b">
-<script src="config.js?v=20261117b"></script>
+<link rel="stylesheet" href="assets/style.css?v=20261117c">
+<script src="config.js?v=20261117c"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
@@ -207,6 +207,22 @@
 
             <h4>확장판: Google Apps Script와 Gemini</h4>
             <p>학생이 직접 제출하면 채점·비계 질문·기록이 자동으로 이어집니다. 시스템은 다섯 부분으로 이루어집니다.</p>
+            <div class="fig-toggles">
+              <details class="fig-toggle">
+                <summary>시스템 구성도 보기</summary>
+                <figure>
+                  <a href="assets/img/scaffold-system.webp" target="_blank" rel="noopener"><img src="assets/img/scaffold-system.webp" loading="lazy" width="1536" height="1020" alt="학생 수학 비계 질문 자동 채점 시스템 구성도. index.html(학생 화면, 활동지), code.gs(Apps Script 서버, 교무실), Gemini API(멀티모달 분석, 외부 채점 전문가), Google Sheets(응답 기록, 성적 장부), Google Drive(이미지 보관, 서류함) 다섯 부분이 각각 하는 일과 눈여겨볼 장치를 정리한 표."></a>
+                  <figcaption>그림을 누르면 크게 열립니다. 휴대폰에서는 두 손가락으로 확대해 보세요.</figcaption>
+                </figure>
+              </details>
+              <details class="fig-toggle">
+                <summary>처리 흐름 보기</summary>
+                <figure>
+                  <a href="assets/img/scaffold-flow.webp" target="_blank" rel="noopener"><img src="assets/img/scaffold-flow.webp" loading="lazy" width="1168" height="1352" alt="처리 흐름 6단계. 1 학생이 문제를 풀어 사진을 찍어 제출(index.html), 2 code.gs가 제출물을 받아 처리, 3 Gemini API가 채점하고 비계 질문 3개 작성, 4 Google Sheets에 점수와 질문 기록, 5 Google Drive에 풀이 사진 보관, 6 학생이 정답 대신 비계 질문을 보고 답하고 다시 제출(같은 과정을 한번 더)."></a>
+                  <figcaption>그림을 누르면 크게 열립니다.</figcaption>
+                </figure>
+              </details>
+            </div>
             <table class="table">
               <thead><tr><th>부분</th><th>역할</th></tr></thead>
               <tbody>
@@ -345,8 +361,8 @@
 
 <div class="modal" id="app-modal" hidden role="dialog" aria-modal="true" aria-label="작품 상세"><div class="dialog"></div></div>
 
-<script src="assets/app.js?v=20261117b"></script>
-<script src="assets/plot.js?v=20261117b"></script>
+<script src="assets/app.js?v=20261117c"></script>
+<script src="assets/plot.js?v=20261117c"></script>
 <script>
   // 휴대폰에서 표를 칸별로 세워 보여 줄 때 쓸 칸 이름(머리글)을 각 칸에 붙인다
   document.querySelectorAll(".table").forEach(function (t) {

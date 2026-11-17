@@ -717,3 +717,18 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .tabbar { gap: 2px; padding: 4px; }
   .main-tab { padding: 8px 10px; font-size: .84rem; }
 }
+
+/* ═══ 그림 자료: 눌러야 펼쳐지는 구성도·흐름도 ═══ */
+.fig-toggles { display: flex; flex-direction: column; gap: 10px; margin: 14px 0 22px; }
+.fig-toggle { border: 1px solid var(--line-2); border-radius: 14px; background: var(--paper); overflow: hidden; }
+.fig-toggle > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; padding: 14px 18px; font-weight: 700; color: var(--ink); }
+.fig-toggle > summary::-webkit-details-marker { display: none; }
+.fig-toggle > summary::before { content: "+"; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: var(--coral); color: var(--on-ink); font-weight: 800; flex: 0 0 auto; }
+.fig-toggle[open] > summary::before { content: "−"; }
+.fig-toggle > summary:hover { background: var(--bg-2); }
+.fig-toggle figure { margin: 0; padding: 4px 16px 16px; }
+.fig-toggle img { display: block; width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--line); background: var(--paper); }
+.fig-toggle figure a { display: block; }
+.fig-toggle figcaption { margin-top: 8px; font-size: .9rem; color: var(--muted); }
+.fig-toggle:nth-child(2) img { max-width: 560px; margin: 0 auto; }
+@media (min-width: 900px) { .fig-toggles { flex-direction: row; align-items: flex-start; } .fig-toggle { flex: 1 1 0; min-width: 0; } .fig-toggle[open] { flex-basis: 100%; } }

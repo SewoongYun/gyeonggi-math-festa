@@ -603,3 +603,88 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (min-width: 1280px) { .steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .steps { grid-template-columns: minmax(0, 1fr); } }
+
+/* ═══ 3차 색 보강: 파랑에 청록·산호·노랑을 더하고, 색마다 역할을 줌 ═══
+   Hallmark · posture: full-palette · 색은 작품 구분(청록 체험수학, 산호 평가 피드백, 파랑 바이브 코딩)과 탭 구분에만 쓴다 */
+:root {
+  --teal: #12957c;   --teal-soft: #dcf4ec;   --teal-ink: #0b6b58;
+  --coral: #e8603e;  --coral-soft: #ffe6dc;  --coral-ink: #b8401d;
+  --yellow: #f2c230; --yellow-soft: #fff3c4; --yellow-ink: #8a6500;
+  --blue-soft: #e2e9ff;
+  --hybrid: var(--teal);  --hybrid-soft: var(--teal-soft);  --hybrid-ink: var(--teal-ink);
+  --feedback: var(--coral); --feedback-soft: var(--coral-soft); --feedback-ink: var(--coral-ink);
+  --vibe: var(--blue);    --vibe-soft: var(--blue-soft);
+  --mark: #ffe27a;
+  --plot-cos: rgba(232,96,62,.55);
+}
+
+/* 첫 화면: 행사 줄은 노랑, 두 소개 카드는 작품 색 */
+.event-line { background: var(--yellow-soft); border-color: var(--yellow-ink); color: var(--ink); }
+.pillar.one { background: var(--teal-soft); border-color: var(--teal-soft); }
+.pillar.two { background: var(--blue-soft); border-color: var(--blue-soft); }
+.pillar.one:hover { border-color: var(--teal); }
+.pillar.two:hover { border-color: var(--blue); }
+.pillar.one .arrow { color: var(--teal-ink); }
+.pillar.two .arrow { color: var(--blue-ink); }
+
+/* 수식 띠: 이름마다 색을 돌려 가며 */
+.ticker-track span:nth-child(4n+1) b { color: var(--ink-accent); }
+.ticker-track span:nth-child(4n+2) b { color: var(--mint); }
+.ticker-track span:nth-child(4n+3) b { color: var(--peach); }
+.ticker-track span:nth-child(4n+4) b { color: var(--yellow); }
+
+/* 탭: 선택된 탭이 그 탭의 색을 띰 */
+.main-tab[data-tab="about"][aria-selected="true"] { background: var(--blue); color: var(--on-ink); }
+.main-tab[data-tab="booth"][aria-selected="true"] { background: var(--yellow); color: var(--ink); }
+.main-tab[data-tab="cases"][aria-selected="true"] { background: var(--teal); color: var(--on-ink); }
+.main-tab[data-tab="howto"][aria-selected="true"] { background: var(--coral); color: var(--on-ink); }
+.nav a.active[data-tab-link="booth"] { text-decoration-color: var(--yellow); }
+.nav a.active[data-tab-link="cases"] { text-decoration-color: var(--teal); }
+.nav a.active[data-tab-link="howto"] { text-decoration-color: var(--coral); }
+
+/* 작품 카드: 구분 색으로 옅게 물들이고, 올리면 그 색 테두리 */
+.card { background: color-mix(in srgb, var(--c) 7%, var(--paper)); }
+.card:hover { border-color: var(--c); }
+.card .tags span { background: color-mix(in srgb, var(--c) 14%, var(--paper)); }
+.card.hybrid .foot .go { color: var(--teal-ink); }
+.card.feedback .foot .go { color: var(--coral-ink); }
+.card.vibe .foot .go { color: var(--blue-ink); }
+.filter[aria-selected="true"] { background: var(--teal); border-color: var(--teal); color: var(--on-ink); }
+
+/* 소개: 두 연구를 작품 색으로 */
+.compare .col.one { background: var(--teal-soft); border-color: var(--teal-soft); }
+.compare .col.two { background: var(--blue-soft); border-color: var(--blue-soft); }
+.compare .col.one .mission div { border-top-color: var(--teal); }
+.compare .col.one h3 { color: var(--teal-ink); }
+.compare .col.two h3 { color: var(--blue-ink); }
+.compare .table { background: var(--paper); }
+.quote { background: var(--blue-deep); border-color: var(--blue-deep); }
+
+/* 부스 이용 순서: 단계마다 색 */
+.step:nth-child(1) { background: var(--blue-soft); border-color: var(--blue-soft); }
+.step:nth-child(2) { background: var(--teal-soft); border-color: var(--teal-soft); }
+.step:nth-child(3) { background: var(--coral-soft); border-color: var(--coral-soft); }
+.step:nth-child(4) { background: var(--yellow-soft); border-color: var(--yellow-soft); }
+.step:nth-child(1) .num { color: var(--blue); }
+.step:nth-child(2) .num { color: var(--teal); }
+.step:nth-child(3) .num { color: var(--coral); }
+.step:nth-child(4) .num { color: var(--yellow-ink); }
+.booth-note div { background: var(--paper); border-color: var(--line); border-top: 3px solid var(--blue); }
+.booth-note div:nth-child(2) { border-top-color: var(--teal); }
+.booth-note div:nth-child(3) { border-top-color: var(--coral); }
+
+/* 만드는 방법: 4단계와 실습 번호에 색 */
+.flow .node:nth-child(1) strong b { color: var(--blue); }
+.flow .node:nth-child(2) strong b { color: var(--teal); }
+.flow .node:nth-child(3) strong b { color: var(--coral); }
+.flow .node:nth-child(4) strong b { color: var(--yellow-ink); }
+.flow .node::after { background: var(--coral); }
+.practice-card:nth-of-type(1) > summary .idx { background: var(--blue); }
+.practice-card:nth-of-type(2) > summary .idx { background: var(--teal); }
+.practice-card:nth-of-type(3) > summary .idx { background: var(--coral); }
+.practice-card[open] { border-color: var(--line-2); }
+.tip { background: var(--yellow-soft); border-color: var(--yellow); }
+.tip strong { color: var(--yellow-ink); }
+
+/* 상세 창: 구분 색 탭 */
+.dtab[aria-selected="true"] { background: var(--teal); }

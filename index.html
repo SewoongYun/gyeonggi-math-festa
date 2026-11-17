@@ -3,14 +3,358 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>경기도수학교육연구회 부스 안내</title>
-<meta name="description" content="2026 경기 페스타 경기도수학교육연구회 부스 안내 사이트. 최신 버전으로 이동합니다.">
-<script>location.replace("3차/" + location.search + location.hash);</script>
-<meta http-equiv="refresh" content="0; url=3차/">
+<title>AI·바이브 코딩 수학 수업 체험 부스 | 경기도수학교육연구회</title>
+<meta name="description" content="2026 경기 페스타 부스 안내. AI활용 Hybrid 체험수학 2.0과 평가 피드백 자동화 사례를 직접 체험하고, 바이브 코딩으로 만드는 방법을 단계별로 안내합니다.">
+<noscript><style>.tab-panel[hidden] { display: block; }</style></noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=20261117b">
+<script src="config.js?v=20261117b"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-<p><a href="3차/">부스 안내 사이트(3차)로 이동</a></p>
-<p><a href="2차/">2차 버전 보기</a></p>
-<p><a href="1차/">이전 버전(1차) 보기</a></p>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect class="logo-frame" x="1.5" y="1.5" width="37" height="37" rx="9" stroke-width="2"/><path class="logo-axis" d="M9 30H31M12 10V30" stroke-width="1.8" stroke-linecap="round"/><path class="logo-curve" d="M12 27C16 27 18 12 22 12S28 24 31 15" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <span><span data-cfg="orgName">경기도수학교육연구회</span><small data-cfg="eventName">2026 경기 페스타</small></span>
+    </a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="#about" data-tab-link="about">소개</a>
+      <a href="#booth" data-tab-link="booth">부스 이용 순서</a>
+      <a href="#cases" data-tab-link="cases">사례 체험</a>
+      <a href="#howto" data-tab-link="howto">만드는 방법</a>
+      <a class="admin-link" href="admin.html">관리자</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ═══ 히어로 ═══ -->
+  <section class="hero" id="hero">
+    <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+    <!-- 수학 배경: 좌표평면 위에 y = sin x, y = cos x 를 그리는 캔버스 (뒤에 은은하게) -->
+    <canvas class="plot" id="plot" aria-hidden="true"></canvas>
+    <div class="math-symbols" aria-hidden="true">
+      <span class="c1" style="left:5%;top:16%;--d:0s;--s:3rem">∑</span>
+      <span class="c2" style="left:89%;top:16%;--d:-3s;--s:3.6rem">∫</span>
+      <span class="c3" style="left:84%;top:66%;--d:-6s;--s:2.6rem">π</span>
+      <span class="c1" style="left:8%;top:70%;--d:-2s;--s:2.2rem">√x</span>
+      <span class="c2" style="left:92%;top:42%;--d:-8s;--s:1.7rem">lim</span>
+      <span class="c3" style="left:3%;top:42%;--d:-9s;--s:1.6rem">(n−1)!</span>
+    </div>
+    <div class="wrap">
+      <p class="event-line"><span data-cfg="eventName">2026 경기 페스타</span> · <span data-cfg="orgName">경기도수학교육연구회</span> 부스</p>
+      <h1>수업에서 직접 써 본<br>AI 수학 체험 자료,<br><em>부스에서 열어 보세요</em></h1>
+      <p class="lead">연구회 선생님들이 교실에서 쓴 <strong>체험 웹앱 열 개</strong>를 모았습니다. <strong>QR을 찍으면 바로 열리고</strong>, 만든 과정은 프롬프트까지 적어 두었습니다.</p>
+      <div class="cta">
+        <a class="btn light" href="#cases" data-tab-link="cases">사례 체험하기</a>
+        <a class="btn ghost" href="#howto" data-tab-link="howto">만드는 방법 보기</a>
+      </div>
+      <div class="pillars">
+        <a class="pillar one" href="#cases" data-tab-link="cases">
+          <h2>AI활용 Hybrid 체험수학 2.0과 평가 피드백 자동화</h2>
+          <p>원순열·집합·수열·극한을 직접 조작하는 디지털 체험 웹앱과, 학생 풀이에 개별 피드백을 자동으로 주는 시스템.</p>
+          <span class="arrow">작품 열 개 체험하기</span>
+        </a>
+        <a class="pillar two" href="#howto" data-tab-link="howto">
+          <h2>바이브 코딩과 AI를 활용한 학생 맞춤형 수업</h2>
+          <p>메타프롬프트 한 장에서 Canva AI 다듬기, Apps Script와 Gemini 비계 피드백까지 우리가 실제로 거친 제작 과정.</p>
+          <span class="arrow">실습 세 가지 따라 하기</span>
+        </a>
+      </div>
+    </div>
+    <button class="calm-toggle" id="calm-toggle" type="button" aria-pressed="false">배경 움직임 멈추기</button>
+  </section>
+
+  <!-- 수식 띠: 부스 작품에 쓰인 수학 -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span><b>원순열</b>(n − 1)!</span><span><b>제곱수의 합</b>Σk² = n(n+1)(2n+1)/6</span><span><b>합성함수의 극한</b>lim f(g(x))</span><span><b>조건부확률</b>P(A|B) = P(A∩B) / P(B)</span><span><b>하노이의 탑</b>aₙ₊₁ = 2aₙ + 1</span><span><b>등비수열의 합</b>Sₙ = a(rⁿ − 1) / (r − 1)</span><span><b>드모르간</b>(A ∪ B)ᶜ = Aᶜ ∩ Bᶜ</span>
+      <span><b>원순열</b>(n − 1)!</span><span><b>제곱수의 합</b>Σk² = n(n+1)(2n+1)/6</span><span><b>합성함수의 극한</b>lim f(g(x))</span><span><b>조건부확률</b>P(A|B) = P(A∩B) / P(B)</span><span><b>하노이의 탑</b>aₙ₊₁ = 2aₙ + 1</span><span><b>등비수열의 합</b>Sₙ = a(rⁿ − 1) / (r − 1)</span><span><b>드모르간</b>(A ∪ B)ᶜ = Aᶜ ∩ Bᶜ</span>
+    </div>
+  </div>
+
+  <!-- ═══ 본문: PC는 왼쪽 사이드 탭 + 내용, 모바일은 가로 탭 ═══ -->
+  <div class="wrap layout">
+  <aside class="side-tabs">
+    <div class="tabbar" role="tablist" aria-label="페이지 구분">
+      <button class="main-tab" role="tab" data-tab="about" aria-selected="true">소개</button>
+      <button class="main-tab" role="tab" data-tab="booth" aria-selected="false">부스 이용 순서</button>
+      <button class="main-tab" role="tab" data-tab="cases" aria-selected="false">사례 체험</button>
+      <button class="main-tab" role="tab" data-tab="howto" aria-selected="false">만드는 방법</button>
+    </div>
+    <div class="side-note"><b>휴대폰으로 보려면</b>테이블의 QR을 찍으면 작품 소개가 바로 열립니다. 따로 설치하거나 로그인할 것은 없습니다.</div>
+  </aside>
+  <div class="content">
+
+  <!-- ═══ 탭 1 · 사례 체험 ═══ -->
+  <section class="tab-panel" id="cases" role="tabpanel" hidden>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>작품을 직접 체험해 보세요</h2>
+          <p><strong>카드를 누르면</strong> 목적·수학적 내용·프로그램 설명과 만드는 방법이 열립니다. 내용은 연구회 구글 시트에서 관리되며, QR로 휴대폰에서 바로 열 수 있습니다.</p>
+        </div>
+        <span class="source-badge" id="source-badge"><span class="dot"></span>불러오는 중…</span>
+      </div>
+      <div class="toolbar">
+        <div class="filters" id="tabs" role="tablist" aria-label="구분 필터"></div>
+        <div class="search"><label class="sr-only" for="search">검색</label><input id="search" type="search" placeholder="단원·키워드 검색 (예: 수열, 집합)"></div>
+      </div>
+      <div class="grid" id="app-grid"><div class="empty">작품 목록을 불러오는 중입니다…</div></div>
+      <p class="note">※ 웹앱은 외부 서비스(Canva·Netlify·Google Apps Script)에서 실행됩니다. 피드백 웹앱의 체험용 비밀번호는 각 작품 설명에 있습니다.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 탭 2 · 만드는 방법 ═══ -->
+  <section class="tab-panel" id="howto" role="tabpanel" hidden>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>우리는 이렇게 만들었습니다</h2>
+          <p>바이브 코딩은 코드를 직접 짜는 대신, 만들고 싶은 수업 자료를 <strong>말로 설명하면 AI가 코드를 써 주는</strong> 방식입니다. 네 단계를 반복하면 수업에 쓸 자료가 완성됩니다.</p>
+        </div>
+      </div>
+
+      <ol class="flow" aria-label="바이브 코딩 4단계">
+        <li class="node"><strong><b>1</b>말로 설명</strong><span>원하는 기능을 메타프롬프트로 설명한다</span></li>
+        <li class="node"><strong><b>2</b>AI가 생성</strong><span>HTML 한 파일, 또는 Code.gs와 Index.html</span></li>
+        <li class="node"><strong><b>3</b>바로 실행·점검</strong><span>학생 입장에서 조작하며 수학적 오류를 확인</span></li>
+        <li class="node"><strong><b>4</b>대화로 수정</strong><span>"힌트를 단계별로", "세로 화면에 맞게" 다시 요청</span></li>
+      </ol>
+      <p class="flow-loop">3, 4, 2단계를 반복해 다듬은 뒤 Canva, Netlify, Apps Script로 게시하고 QR로 공유합니다.</p>
+
+      <div class="timeline">
+
+        <details class="practice-card" open>
+          <summary>
+            <span class="idx"><b>1</b></span>
+            <div><h3>설계도 그리기: 메타프롬프트로 탐구 자료 만들기</h3><p>[역할]·[목표]·[대상]·[조건]·[출력] 다섯 칸만 채우면 어떤 단원이든 다시 쓸 수 있는 상위 틀</p></div>
+            <span class="arrow">▾</span>
+          </summary>
+          <div class="content">
+            <p>메타프롬프트는 학생이 <b>무엇을 조작하고, 무엇을 발견하며, 어디서 막히면 어떤 힌트를 받을지</b>를 교사가 설계하는 틀입니다. 복사해서 [ ] 안만 채운 뒤 ChatGPT·Claude·Gemini 등 대화형 AI에 붙여 넣으세요.</p>
+            <div class="prompt"><span class="label">메타프롬프트 틀, [ ]만 채우기</span>[역할] 고등학교 수학 교육과정을 이해하는 수학교사이자 HTML·CSS·JavaScript를 활용하는 교육용 웹 개발자의 관점에서 제작한다.
+[목표] 학생이 [조작·관찰할 활동]을 하며 [발견할 개념·식]을 스스로 발견하도록 한다. 정답은 처음부터 알려 주지 말고 힌트로 단계적으로 추론하게 한다.
+[대상] [학년·과목·단원]을 배우는 학생, [도입/전개/복습] 단계에서 [시간]분 동안 [PC/태블릿/스마트폰]으로 활용한다.
+[조건] [클릭·드래그·슬라이더]로 조작하고, 잘못된 입력은 이유를 안내한다. [기록할 것]을 자동 기록하고 [표·그래프·힌트·교사용 설정]을 포함한다. 하나의 반응형 HTML 파일로 만든다.
+[출력] 수업 활용 목적과 주요 기능을 먼저 설명하고, 전체 HTML 코드, 실행·설정 변경 방법, 수업 발문 예시, 기능 및 수학적 오류 점검 결과를 함께 제공한다.</div>
+            <h4>작성 예시: 하노이의 탑으로 점화식 발견하기 <span class="small muted">([역할]과 [출력]은 위 틀 그대로)</span></h4>
+            <div class="prompt"><span class="label">예시: 하노이의 탑</span>[목표] 원판을 옮기며 최소 이동 횟수를 기록하고, 점화식 a(n+1)=2a(n)+1 과 일반항 a(n)=2^n−1 을 스스로 발견하게 한다.
+[대상] 수열 단원 도입 단계, 15~20분
+[조건] 기둥 3개·원판 1~7개, 드래그로 이동, 규칙에 어긋난 이동은 막기, 최소 이동 횟수 표·단계별 힌트·기록 그래프·자동 해결 시범·교사용 설정 포함</div>
+            <div class="tip"><strong>자주 쓰는 수정 요청</strong>"스마트폰 세로 화면에서도 잘리지 않게 고쳐줘", "틀렸을 때 정답 대신 힌트를 한 단계씩 보여줘", "교사용 설정 화면을 추가해줘"</div>
+          </div>
+        </details>
+
+        <details class="practice-card">
+          <summary>
+            <span class="idx"><b>2</b></span>
+            <div><h3>설계 다듬기: Canva AI로 '심슨의 역설' 웹앱 고도화</h3><p>설치 없이 만들고, 조작해 점검하고, 기능을 덧붙여 웹사이트로 게시하는 7단계</p></div>
+            <span class="arrow">▾</span>
+          </summary>
+          <div class="content">
+            <p>설계는 한 번에 끝나지 않습니다. 작게 만들고, 학생 입장에서 조작해 확인하고, 필요한 기능을 덧붙이는 반복이 설계자가 일하는 방식입니다.</p>
+            <table class="table">
+              <thead><tr><th>단계</th><th>하는 일</th></tr></thead>
+              <tbody>
+                <tr><td>1 코드 기능 열기</td><td>Canva 좌측 사이드바 <b>Canva AI</b> → 입력창 하단 <b>&lt;/&gt; 코드</b> 클릭</td></tr>
+                <tr><td>2 기본 버전 만들기</td><td>[프롬프트 1] 입력 → 왼쪽 대화창, 오른쪽 실행 결과(버전 1) 생성</td></tr>
+                <tr><td>3 직접 조작해 점검</td><td>버전 1 버튼으로 결과를 열어 수치·계산이 맞는지 확인</td></tr>
+                <tr><td>4 기능 덧붙이기</td><td>[프롬프트 2]로 슬라이더·그래프 추가 → 새 버전 자동 생성</td></tr>
+                <tr><td>5 최종 다듬기</td><td>[프롬프트 3]으로 시각 효과·반응형 UI 완성</td></tr>
+                <tr><td>6 웹사이트로 배포</td><td>우측 상단 <b>게시</b> → 사이트 주소 설정 → 게시</td></tr>
+                <tr><td>7 링크 공유</td><td>주소를 복사해 학급 커뮤니티에 공유, 학생 조작 후 상호 피드백</td></tr>
+              </tbody>
+            </table>
+            <div class="prompt"><span class="label">프롬프트 1: 기본 버전</span>고등학생을 위한 '심슨의 역설' 교육용 웹앱 1단계를 만들어줘. HTML, CSS, JS를 하나의 파일로 작성해줘.
+- 복잡한 디자인이나 애니메이션은 배제하고 수학적 계산과 데이터 표시에 집중해줘.
+- 상황: A대학의 남녀 합격률 모순(전체 합격률은 남자가 높지만, 공대/인문대로 나누면 여자가 높음).
+- 화면 구성: 공대·인문대·전체(합산) 지원자/합격자 표(남/여).
+- 심슨의 역설이 명확히 성립하는 초기 수치를 넣고, 하단에 조건부 확률 식(%)을 텍스트로 보여줘.
+- 전체 합산 결과가 각 단과대의 합과 정확히 일치하도록 JS로 자동 계산해줘.</div>
+            <div class="prompt"><span class="label">프롬프트 2: 조작 기능 추가</span>앞서 만든 웹앱을 2단계로 고도화해 줘.
+- 공대 남/여, 인문대 남/여 지원자 수를 조절하는 슬라이더 4개를 추가해(합격률은 고정).
+- 슬라이더를 움직일 때마다 표와 조건부 확률(%)이 실시간으로 재계산되게 해.
+- 분모가 0이 되거나 확률이 100%를 넘는 등 수학적 오류가 생기지 않도록 입력값을 엄격히 제한해.
+- 전체 합격률과 단과대별 합격률을 비교하는 막대그래프를 추가해.</div>
+            <div class="prompt"><span class="label">프롬프트 3: 최종 완성</span>최종 3단계를 완성해 줘. 학생들의 직관적 이해를 돕는 시각적 애니메이션에 집중해줘.
+- 전체 데이터 보기와 단과대별로 쪼개기 버튼을 추가해.
+- 합치기를 누르면 그래프가 하나로 병합되며 가중 평균의 함정을, 쪼개기를 누르면 단과대별로는 여자 합격률이 높다는 것을 분리되는 효과로 보여줘.
+- 다양한 기기에서 쓸 수 있도록 깔끔한 반응형 UI로 다듬어 줘.</div>
+            <p>다른 단원에 쓸 때는 <b>[상황]과 [화면 구성]만</b> 바꾸면 됩니다. 완성 결과물은 「사례 체험」 탭의 <a href="#app=simpson-paradox"><u>심슨의 역설 웹앱</u></a>에서 직접 조작해 볼 수 있습니다.</p>
+            <div class="tip"><strong>Canva 교사 인증으로 무료 사용</strong>canva.com/edu-signup에서 역할을 '교사'로 고르고 학교 정보를 입력한 뒤 재직증명서(나이스 발급)를 올리면 보통 48시간 안에 승인됩니다. 승인 후 [설정]에서 학생을 초대하면 학생도 무료로 쓸 수 있습니다.</div>
+          </div>
+        </details>
+
+        <details class="practice-card">
+          <summary>
+            <span class="idx"><b>3</b></span>
+            <div><h3>피드백 설계하기: AI 비계 질문으로 학생 풀이에 응답하기</h3><p>간이판(사진 한 장씩 AI에 올리기)에서 확장판(Google Apps Script와 Gemini, 30분이면 우리 학교용 시스템)까지</p></div>
+            <span class="arrow">▾</span>
+          </summary>
+          <div class="content">
+            <p>설계자로서의 교사는 정답을 직접 알려 주는 대신, 학생이 오류 지점을 스스로 찾아가도록 <b>질문(비계)의 흐름</b>을 설계합니다. 풀이 속 '숨은 논리적 오류' 찾기는 AI가 돕고, 교사는 1차·2차 풀이 변화를 보며 개입 시점을 판단합니다.</p>
+
+            <h4>간이판: 오늘 바로 써 보기<span class="small muted">(학생 풀이 사진은 이름을 가리고 올립니다)</span></h4>
+            <div class="prompt"><span class="label">간이판 프롬프트</span>너는 고등학교 수학교사다. 첨부한 학생 풀이는 [문제 내용]에 대한 것이다.
+① 풀이 과정을 단계별로 읽고, 처음으로 오류가 생긴 지점과 그 원인(개념/계산/조건 해석)을 교사용으로 정리해줘.
+② 학생에게는 정답이나 올바른 풀이를 알려 주지 말고, 오류 지점을 스스로 찾도록 돕는 질문 3개를 쉬운 것부터 순서대로 만들어줘.
+③ 학생이 고쳐 온 2차 풀이를 다시 올리면, 1차와 비교해 무엇이 개선되었는지 표로 정리해줘.</div>
+
+            <h4>확장판: Google Apps Script와 Gemini</h4>
+            <p>학생이 직접 제출하면 채점·비계 질문·기록이 자동으로 이어집니다. 시스템은 다섯 부분으로 이루어집니다.</p>
+            <table class="table">
+              <thead><tr><th>부분</th><th>역할</th></tr></thead>
+              <tbody>
+                <tr><td>① Index.html</td><td>학생 화면(문항 선택·사진 업로드·비계 응답)</td></tr>
+                <tr><td>② Code.gs</td><td>처리 코드(사진 저장, AI 호출, 시트 기록)</td></tr>
+                <tr><td>③ Gemini API</td><td>풀이 분석·채점·비계 질문 생성</td></tr>
+                <tr><td>④ Google Sheets</td><td>학생 1명당 한 행으로 1차·최종 결과 기록</td></tr>
+                <tr><td>⑤ Google Drive</td><td>1차·최종 풀이 사진 보관</td></tr>
+              </tbody>
+            </table>
+            <table class="table">
+              <thead><tr><th>단계</th><th>학생 화면에서 (①)</th><th>화면 뒤에서 (②~⑤)</th><th>남는 기록</th></tr></thead>
+              <tbody>
+                <tr><td>1 1차 제출</td><td>학번·이름 입력, 풀이 촬영 업로드</td><td>②가 사진을 ⑤에 저장하고 ③에 분석 의뢰</td><td>1차 답안 사진</td></tr>
+                <tr><td>2 1차 분석</td><td>1차 점수와 비계 질문 3개 확인(정답 비공개)</td><td>③이 채점·질문 생성, ②가 ④에 기록</td><td>1차 점수, 오류 지점, 비계 질문</td></tr>
+                <tr><td>3 비계 응답</td><td>질문마다 자기 생각을 글로 작성</td><td>응답 1개 이상이어야 다음 단계 버튼 활성화</td><td>질문 건너뛰기 방지</td></tr>
+                <tr><td>4 최종 제출</td><td>고친 풀이 촬영 업로드</td><td>②가 수정 사진·비계 응답을 ⑤와 ④에 저장</td><td>최종 답안 사진, 비계 응답</td></tr>
+                <tr><td>5 최종 분석</td><td>1차 → 최종 점수와 피드백 확인</td><td>③이 통합 분석, ②가 ④에 기록</td><td>최종 점수, 개선 요약, 교사 개입 필요 여부</td></tr>
+              </tbody>
+            </table>
+
+            <h4>직접 만들어 보기: 우리 학교용 시스템 구축</h4>
+            <div class="prompt"><span class="label">비계 피드백 웹앱 코드 만들기, [ ]만 채우기</span>[문항] [하고자 하는 문항]을 캡처하거나 내용을 작성하여 포함시킨다.
+------------------------------------------------------------
+너는 Google Apps Script와 Gemini API로 교육용 웹앱을 만드는 개발자다. 구글 시트에 연결된 Apps Script 웹앱의 Code.gs와 Index.html 전체 코드를 아래 조건으로 작성해줘.
+[목적] [학년·과목] 학생이 수학 풀이 사진을 올리면 AI가 채점하고, 정답 대신 비계 질문 3개로 스스로 오류를 고치게 한다.
+[학생 흐름] 문항 선택·학번·이름 입력 → 1차 풀이 사진 업로드(휴대폰 카메라 촬영 가능) → 점수와 비계 질문 3개 확인 → 질문에 답하기(1개 이상 답해야 다음 버튼 활성화) → 수정 풀이 업로드 → 1차·최종 점수와 피드백 확인
+[AI 분석] Gemini [모델명, 예: gemini-3.7-flash]를 UrlFetchApp으로 호출하고 temperature 0.2, JSON 응답 모드를 쓴다. 1차에는 루브릭 채점, 오류 지점과 원인, 정답을 알려 주지 않는 비계 질문 3개를 만든다. 최종에는 비계 질문·학생 응답·수정 풀이를 함께 보고 개선 요약, 남은 오류, 교사 개입 필요 여부를 정리한다. 학번·이름은 AI에 보내지 않는다.
+[저장] '문항' 시트(문항ID·문제·정답·루브릭·만점)에서 문항을 읽고, '응답' 시트에 학생 1명당 한 행으로 1차·최종 결과와 비계 응답을 기록한다. 사진은 드라이브의 1차·최종 폴더에 '학번_이름_문항ID_first/final'로 저장한다.
+[설정] API 키는 코드에 쓰지 말고 스크립트 속성 GEMINI_API_KEY에서 읽는다. 시트와 폴더를 자동으로 만드는 setup 함수, API 연결을 확인하는 testGemini 함수를 넣고, 429·503 오류는 몇 초 간격으로 재시도한다.
+[출력] Code.gs와 Index.html 전체 코드를 각각 하나의 코드 블록으로 주고, 붙여 넣기부터 배포까지의 순서를 짧게 안내해줘.</div>
+            <table class="table">
+              <thead><tr><th>단계</th><th>하는 일</th><th>확인</th></tr></thead>
+              <tbody>
+                <tr><td>1 코드 만들기</td><td>① 위 프롬프트를 ChatGPT·Claude·Gemini 중 하나에 붙여 넣는다 ② 답변의 Code.gs, Index.html 코드 블록을 각각 복사해 둔다</td><td class="chk">코드 블록 2개</td></tr>
+                <tr><td>2 코드 넣기</td><td>① 새 구글 시트 → [확장 프로그램 → Apps Script] ② Code.gs 기본 내용을 지우고 붙여 넣기 ③ [+ → HTML] 이름 <code>Index</code> → Index.html 붙여 넣고 저장(Ctrl+S)</td><td class="chk">왼쪽에 파일 2개</td></tr>
+                <tr><td>3 API 키 연결</td><td>① aistudio.google.com → [Get API key → Create API key] ② Apps Script 톱니(프로젝트 설정) 맨 아래 [스크립트 속성 추가] ③ 속성 <code>GEMINI_API_KEY</code>, 값에 키 저장</td><td class="chk">속성 목록에 키 1줄</td></tr>
+                <tr><td>4 실행해 보기</td><td>① 함수 목록에서 <code>testGemini</code> 선택 → [실행] ② 권한 창: [고급 → 이동 → 허용] ③ 같은 방법으로 <code>setup</code> 실행</td><td class="chk">로그에 200과 '설정 완료', 시트에 '문항'·'응답' 탭</td></tr>
+                <tr><td>5 배포하기</td><td>① [배포 → 새 배포] → 유형 [웹 앱] ② 실행 '나', 액세스 '모든 사용자' → [배포] ③ URL을 휴대폰으로 열어 틀린 풀이를 한 번 제출 ④ 비계 질문이 정답을 흘리지 않는지 확인 후 QR 만들기</td><td class="chk">휴대폰에 문제와 학번 입력 화면</td></tr>
+              </tbody>
+            </table>
+            <div class="tip"><strong>막혔을 때</strong>
+              <ul class="tip-list">
+                <li>실행 로그의 빨간 줄을 그대로 복사해 코드를 만든 AI 대화창에 "이 오류 고쳐줘"라고 붙여 넣습니다.</li>
+                <li>404나 503은 모델 이름 문제입니다. 한 단계 이전 flash 모델로 바꿉니다.</li>
+                <li>실행해도 변화가 없으면 doGet 대신 testGemini나 setup을 골랐는지 확인합니다.</li>
+                <li>코드를 고친 뒤에는 [배포 → 배포 관리 → 연필 → 새 버전]으로 다시 배포합니다. [새 배포]는 URL이 바뀝니다.</li>
+              </ul>
+            </div>
+            <p style="margin-top:14px">완성 결과물은 「사례 체험」 탭의 <a href="#app=scaffold-feedback"><u>AI 비계 피드백 웹앱</u></a>에서 학생 화면으로 체험할 수 있습니다.</p>
+          </div>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 탭 3 · 소개 ═══ -->
+  <section class="tab-panel" id="about" role="tabpanel">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>두 연구는 이렇게 이어집니다</h2>
+          <p>하나는 '무엇을 만들었는가(사례)', 다른 하나는 '어떻게 만드는가(방법)'입니다. 둘 다 AI가 학생의 학습을 대신하지 않고 <strong>사고를 자극하게 하는 '증강'의 도구</strong>로 쓰는 데 초점을 둡니다.</p>
+        </div>
+      </div>
+      <div class="compare">
+        <div class="col one">
+          <h3>AI활용 Hybrid 체험수학 2.0 및 평가 피드백 자동화 시스템 구축</h3>
+          <p class="muted small">AI의 도움을 받아 교사가 주도하여 현장에 필요한 디지털 체험 웹앱을 만들고, 학생이 직접 조작하며 개념을 발견하도록 돕는 프로그램. 평가에서는 AI 채점과 교사의 최종 판단을 결합합니다.</p>
+          <div class="mission">
+            <div><b>미션 1: 체험수학 2.0</b>단원별 핵심 개념 연결에 최적화된 체험용 교구를 AI로 디지털 공간에 구현<br><span class="muted">원순열 자율주행, 집합 부동산게임, 수학사 퀴즈, 수열의 합 기하적 해석, 합성함수의 극한</span></div>
+            <div><b>미션 2: 평가 피드백 자동화</b>소크라테스식 질문, 과정 중심 피드백으로 설계된 수학교육 전용 AI 구축<br><span class="muted">상호 설명 및 AI 피드백, 서논술형 자동채점 피드백, 개별 맞춤형 피드백 웹앱</span></div>
+          </div>
+          <ul class="small">
+            <li>흐름: 체험, 설명, 피드백, 수정, 재설계의 순환</li>
+            <li>점검: 자동화의 편의성과 함께 평가의 타당성, 학생의 주도성, 교사의 해석</li>
+          </ul>
+        </div>
+        <div class="col two">
+          <h3>바이브 코딩과 AI를 활용한 학생 맞춤형 수업</h3>
+          <p class="muted small">코드를 몰라도 만들고 싶은 수업 자료를 말로 설명하면 AI가 코드를 만들어 주는 '바이브 코딩'으로 꼭 맞는 퀴즈·게임·탐구형 시뮬레이션을 직접 만듭니다.</p>
+          <table class="table small">
+            <thead><tr><th>수업 단계</th><th>AI의 역할</th><th>예시 도구</th></tr></thead>
+            <tbody>
+              <tr><td>도입·복습</td><td>기존 PDF 자료를 퀴즈로 바로 변환</td><td>Kahoot AI</td></tr>
+              <tr><td>전개·학습</td><td>추상 개념을 직접 조작하는 탐구형 웹앱 제작</td><td>대화형 언어모델, Canva AI, GeoGebra</td></tr>
+              <tr><td>평가·피드백</td><td>풀이 속 숨은 오류 탐지, 루브릭 채점, 비계 질문</td><td>Snorkl, Clipo, Apps Script + Gemini</td></tr>
+            </tbody>
+          </table>
+          <ul class="small">
+            <li>실습 순서: 메타프롬프트, Canva AI 고도화, AI 비계 피드백</li>
+            <li>핵심: 도구 사용법보다 '수업 목적에 맞는 AI 활용'과 '교사의 검증·판단'</li>
+          </ul>
+        </div>
+      </div>
+      <div class="quote"><p>바이브 코딩, 멀티모달 AI, 동적 수학 도구는 교사의 자리를 대신하지 않습니다. 도구가 코드를 짓고 채점을 돕는 동안, 교사는 학생이 무엇을 조작하고 어디서 막히며 어떤 질문을 받아 스스로 답에 이를지를 설계합니다.</p></div>
+    </div>
+  </section>
+
+  <!-- ═══ 탭 4 · 부스 이용 순서 ═══ -->
+  <section class="tab-panel" id="booth" role="tabpanel" hidden>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <h2>부스 이용 순서</h2>
+          <p>부스에서는 아래 <strong>네 단계</strong>로 안내합니다. 혼자 둘러보셔도 같은 순서로 따라오시면 됩니다.</p>
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step"><div class="num">01</div><h3>QR 스캔</h3><p>부스 테이블의 QR 또는 이 페이지의 작품 카드를 열어 <strong>휴대폰으로 바로 접속</strong>합니다.</p></div>
+        <div class="step"><div class="num">02</div><h3>사례 체험</h3><p>「사례 체험」 탭에서 원순열·집합 게임·극한 웹앱을 <strong>학생처럼 조작</strong>해 봅니다.</p></div>
+        <div class="step"><div class="num">03</div><h3>만드는 방법 보기</h3><p>「만드는 방법」 탭에서 메타프롬프트, Canva AI, Apps Script로 이어지는 <strong>제작 과정</strong>을 확인합니다.</p></div>
+        <div class="step"><div class="num">04</div><h3>내 수업용으로 가져가기</h3><p>프롬프트를 복사해 내 단원에 맞게 <strong>[&nbsp;]만 바꿔</strong> 바로 만들어 봅니다. 부스에서 함께 해 드립니다.</p></div>
+      </div>
+      <div class="booth-note">
+        <div><b>준비물</b>휴대폰 또는 태블릿 하나면 충분합니다. 앱 설치는 없습니다.</div>
+        <div><b>소요 시간</b>사례 체험 5분, 만드는 방법 따라 하기 10~15분.</div>
+        <div><b>가져가는 것</b>내 단원용 메타프롬프트 한 장과 QR 체험 링크.</div>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /.content -->
+  </div><!-- /.layout -->
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div><strong data-cfg="orgName">경기도수학교육연구회</strong><span data-cfg="boothName">AI·바이브 코딩 수학 수업 체험 부스</span><br>
+      자료 출처: 2026 경기도중등수학교육연구회 활동기록집 「AI활용 Hybrid 체험수학 2.0 및 평가 피드백 자동화 시스템 구축」, 「바이브 코딩과 AI를 활용한 학생 맞춤형 수업」</div>
+    <div class="links"><a id="record-book-link" href="#" target="_blank" rel="noopener">활동기록집</a><a href="print.html">QR 인쇄용 시트</a><a href="admin.html">관리자</a></div>
+  </div>
+</footer>
+
+<div class="modal" id="app-modal" hidden role="dialog" aria-modal="true" aria-label="작품 상세"><div class="dialog"></div></div>
+
+<script src="assets/app.js?v=20261117b"></script>
+<script src="assets/plot.js?v=20261117b"></script>
+<script>
+  // 휴대폰에서 표를 칸별로 세워 보여 줄 때 쓸 칸 이름(머리글)을 각 칸에 붙인다
+  document.querySelectorAll(".table").forEach(function (t) {
+    var heads = Array.prototype.map.call(t.querySelectorAll("thead th"), function (th) { return th.textContent.trim(); });
+    t.querySelectorAll("tbody tr").forEach(function (tr) {
+      Array.prototype.forEach.call(tr.children, function (td, i) { if (heads[i]) td.setAttribute("data-label", heads[i]); });
+    });
+  });
+</script>
 </body>
 </html>

@@ -21,7 +21,7 @@ const KEY_TO_HEADER = {
   description: '프로그램 설명', howto: '만드는 방법', maker: '제작자', tags: '태그', visible: '공개', order: '순서', updated: '수정일시'
 };
 // 사이트에 배포된 기본 데이터 주소 (importSeed 용). GitHub Pages 주소로 바꿔 쓰세요.
-const SITE_JSON_URL = 'https://sewoongyun.github.io/gyeonggi-math-festa/2%EC%B0%A8/data/apps.json';
+const SITE_JSON_URL = 'https://sewoongyun.github.io/gyeonggi-math-festa/data/apps.json';
 
 /* ───────── 웹앱 진입점 ───────── */
 function doGet(e) {

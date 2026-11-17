@@ -3,14 +3,152 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>경기도수학교육연구회 부스 안내</title>
-<meta name="description" content="2026 경기 페스타 경기도수학교육연구회 부스 안내 사이트. 최신 버전으로 이동합니다.">
-<script>location.replace("3차/admin.html" + location.search + location.hash);</script>
-<meta http-equiv="refresh" content="0; url=3차/admin.html">
+<title>관리자 작품 등록 | 경기도수학교육연구회 부스</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=20261117b">
+<script src="config.js?v=20261117b"></script>
 </head>
 <body>
-<p><a href="3차/admin.html">부스 안내 사이트(3차)로 이동</a></p>
-<p><a href="2차/admin.html">2차 버전 보기</a></p>
-<p><a href="1차/admin.html">이전 버전(1차) 보기</a></p>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><rect class="logo-frame" x="1.5" y="1.5" width="37" height="37" rx="9" stroke-width="2"/><path class="logo-axis" d="M9 30H31M12 10V30" stroke-width="1.8" stroke-linecap="round"/><path class="logo-curve" d="M12 27C16 27 18 12 22 12S28 24 31 15" stroke-width="2.4" stroke-linecap="round"/></svg><span><span data-cfg="orgName">경기도수학교육연구회</span><small>관리자 작품 등록</small></span></a>
+    <nav class="nav"><a href="index.html">사이트로</a><a href="print.html">QR 인쇄용</a></nav>
+  </div>
+</header>
+
+<!-- 비밀번호 게이트 -->
+<div class="gate" id="gate">
+  <form class="gate-card" id="gate-form" autocomplete="off">
+    
+    <h2>관리자 확인</h2>
+    <p class="muted small">작품을 추가·수정하려면 관리자 비밀번호가 필요합니다.<br>(Apps Script의 ADMIN_KEY와 같습니다)</p>
+    <input id="gate-pw" type="password" placeholder="비밀번호" autocomplete="current-password" required autofocus>
+    <button class="btn block" type="submit" id="gate-btn">들어가기</button>
+    <p class="small gate-msg" id="gate-msg" role="status"></p>
+    <a class="small muted" href="index.html">사이트로 돌아가기</a>
+  </form>
+</div>
+
+<main class="wrap admin-layout" id="admin-main" hidden>
+
+  <aside>
+    <div class="panel">
+      <h3>연동 상태</h3>
+      <div class="status" id="api-status"><span>확인 중…</span></div>
+      <div class="field">
+        <label for="admin-key">관리자 키</label>
+        <input id="admin-key" type="password" placeholder="Apps Script 스크립트 속성 ADMIN_KEY" autocomplete="off">
+        <span class="hint">이 브라우저 탭에만 저장됩니다(sessionStorage).</span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn sm outline" id="open-sheet" href="#" target="_blank" rel="noopener">구글 시트 열기</a>
+        <button class="btn sm outline" id="reload">목록 새로고침</button>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>등록된 작품 <span class="muted small" id="row-count"></span></h3>
+      <div class="row-list" id="row-list"><div class="muted small">불러오는 중…</div></div>
+      <button class="btn sm block" id="new-row" style="margin-top:10px">＋ 새 작품 추가</button>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>시트 없이 쓰기</h3>
+      <p class="small muted">구글 시트를 연결하지 않았다면, 여기서 편집한 내용을 <code>data/apps.json</code>으로 내려받아 GitHub 저장소의 같은 파일에 덮어쓰면 됩니다.</p>
+      <button class="btn sm outline block" id="download-json">data/apps.json 내려받기</button>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h3>연결 방법</h3>
+      <p class="small muted"><b>읽기(사이트 표시)</b>: 구글 시트를 <b>공유 → 링크가 있는 모든 사용자, 뷰어</b>로 바꾸면 끝입니다. 시트에서 셀을 고치면 사이트에 바로 반영됩니다.</p>
+      <p class="small muted"><b>쓰기(이 관리자 화면에서 저장)</b>까지 하려면 아래 Apps Script를 연결합니다.</p>
+      <ol class="steps-mini">
+        <li>시트(헤더: ID, 구분, 제목, 한줄소개, 체험링크, 목적, 수학적 내용, 프로그램 설명, 만드는 방법, 제작자, 태그, 공개, 순서)에서 [확장 프로그램 → Apps Script]를 연다.</li>
+        <li>저장소의 <code>apps-script/Code.gs</code> 내용을 붙여 넣고 저장한다.</li>
+        <li>프로젝트 설정 → 스크립트 속성에 <code>ADMIN_KEY</code>(원하는 비밀번호)를 추가한다.</li>
+        <li>함수 <code>setup</code>을 한 번 실행한다(권한 허용).</li>
+        <li>[배포 → 새 배포 → 웹 앱], 실행 '나', 액세스 '모든 사용자'로 배포하고 URL을 복사한다.</li>
+        <li>저장소의 <code>config.js</code>에서 <code>apiUrl</code>에 그 URL을, <code>sheetEditUrl</code>에 시트 주소를 넣고 커밋한다.</li>
+      </ol>
+    </div>
+  </aside>
+
+  <section class="panel">
+    <h3 id="form-title">새 작품 추가</h3>
+    <form id="app-form" class="form-grid" autocomplete="off">
+      <div class="field">
+        <label for="f-id">ID <span class="muted">(영문·숫자·하이픈, 링크 주소에 쓰임)</span></label>
+        <input id="f-id" name="id" placeholder="예: hanoi-tower" pattern="[a-z0-9가-힣\-]+" required>
+      </div>
+      <div class="field">
+        <label for="f-category">구분</label>
+        <select id="f-category" name="category">
+          <option value="hybrid">Hybrid 체험수학 2.0</option>
+          <option value="feedback">평가 피드백 자동화</option>
+          <option value="vibe">바이브 코딩 작업물</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label for="f-title">제목</label>
+        <input id="f-title" name="title" required placeholder="예: 원순열 자율주행 학습 앱">
+      </div>
+      <div class="field full">
+        <label for="f-subtitle">한 줄 소개</label>
+        <input id="f-subtitle" name="subtitle" placeholder="카드에 보이는 짧은 설명">
+      </div>
+      <div class="field full">
+        <label for="f-url">체험 링크 <span class="muted">(없으면 '부스에서 시연'으로 표시)</span></label>
+        <input id="f-url" name="url" type="url" placeholder="https://…">
+      </div>
+      <div class="field full">
+        <label for="f-purpose">목적</label>
+        <textarea id="f-purpose" name="purpose" placeholder="이 자료로 학생이 무엇을 발견·경험하게 하려는지"></textarea>
+      </div>
+      <div class="field full">
+        <label for="f-math">수학적 내용</label>
+        <textarea id="f-math" name="math" placeholder="단원·개념·핵심 식. 줄바꿈과 '- ' 목록을 그대로 보여 줍니다"></textarea>
+      </div>
+      <div class="field full">
+        <label for="f-description">프로그램 설명</label>
+        <textarea id="f-description" name="description" placeholder="주요 기능을 1) 2) 3) 으로"></textarea>
+      </div>
+      <div class="field full">
+        <label for="f-howto">만드는 방법</label>
+        <textarea id="f-howto" name="howto" style="min-height:140px" placeholder="1. 도구 열기 → 2. 프롬프트 → 3. 점검 → 4. 배포 순으로"></textarea>
+      </div>
+      <div class="field">
+        <label for="f-maker">제작자</label>
+        <input id="f-maker" name="maker" placeholder="이름(학교), 분과">
+      </div>
+      <div class="field">
+        <label for="f-tags">태그 <span class="muted">(쉼표로 구분)</span></label>
+        <input id="f-tags" name="tags" placeholder="수열, 점화식, Canva AI">
+      </div>
+      <div class="field">
+        <label for="f-visible">공개</label>
+        <select id="f-visible" name="visible"><option value="Y">공개</option><option value="N">숨김</option></select>
+      </div>
+      <div class="field">
+        <label for="f-order">순서 <span class="muted">(작을수록 앞)</span></label>
+        <input id="f-order" name="order" type="number" min="0" value="100">
+      </div>
+      <div class="full" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+        <button class="btn primary" type="submit" id="save-btn">시트에 저장</button>
+        <button class="btn outline" type="button" id="preview-btn">미리보기</button>
+        <button class="btn outline danger-text" type="button" id="delete-btn" hidden>삭제</button>
+      </div>
+      <p class="small muted full" id="form-msg" style="margin-top:8px"></p>
+    </form>
+  </section>
+</main>
+
+<!-- 미리보기 모달(메인과 같은 모양) -->
+<div class="modal" id="app-modal" hidden role="dialog" aria-modal="true"><div class="dialog"></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="assets/app.js?v=20261117b"></script>
+<script src="assets/admin.js?v=20261117b"></script>
 </body>
 </html>

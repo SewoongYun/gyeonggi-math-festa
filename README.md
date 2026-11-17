@@ -4,18 +4,20 @@
 **바이브 코딩과 AI를 활용한 학생 맞춤형 수업**의 만드는 과정을 안내하는 정적 웹사이트입니다.
 GitHub Pages에 그대로 올리면 동작하며, 작품의 목적·수학적 내용·프로그램 설명·만드는 방법은 **구글 시트**에서 수정합니다.
 
-## 버전 폴더
+## 버전 관리
+
+**사이트 주소 https://sewoongyun.github.io/gyeonggi-math-festa/ 에는 항상 최신 버전이 바로 열립니다.** 최신 버전의 파일은 저장소 맨 위(루트)에 있고, 고칠 때는 루트의 파일을 고칩니다.
 
 | 폴더 | 내용 | 주소 |
 |------|------|------|
-| `3차/` | 최신 버전. 종이·먹·가는 선의 정돈된 디자인(MATH LAB 포트폴리오 느낌), 배경 좌표평면, 먹색 수식 띠 | https://sewoongyun.github.io/gyeonggi-math-festa/ (자동으로 3차로 이동) |
-| `2차/` | 파스텔 디자인에 배경 좌표평면과 수식 띠 | https://sewoongyun.github.io/gyeonggi-math-festa/2차/ |
-| `1차/` | 이전 버전 그대로 보존 | https://sewoongyun.github.io/gyeonggi-math-festa/1차/ |
+| 루트 | 최신 버전(현재 3차와 같음) | https://sewoongyun.github.io/gyeonggi-math-festa/ |
+| `3차/` | 3차 보관본. 종이·먹·가는 선 디자인, 배경 좌표평면, 먹색 수식 띠, 색 구분 | https://sewoongyun.github.io/gyeonggi-math-festa/3차/ |
+| `2차/` | 2차 보관본. 파스텔 디자인에 배경 좌표평면과 수식 띠 | https://sewoongyun.github.io/gyeonggi-math-festa/2차/ |
+| `1차/` | 1차 보관본 | https://sewoongyun.github.io/gyeonggi-math-festa/1차/ |
 
-루트의 `index.html`, `admin.html`, `print.html`은 최신 버전(3차)으로 넘겨 주는 안내 페이지입니다(이미 퍼진 QR과 `#app=` 링크가 그대로 동작).
-새 버전을 만들 때는 최신 폴더를 복사해 `4차/`로 만들고, 루트 안내 페이지의 `3차/`를 `4차/`로 바꾸면 됩니다.
+새 버전을 시작하기 전에 지금 루트의 사이트 파일(`index.html`, `admin.html`, `print.html`, `config.js`, `assets/`, `data/`)을 `4차/` 같은 새 폴더로 복사해 보관한 뒤, 루트에서 고치면 됩니다.
 CSS·JS를 고친 뒤에는 각 HTML의 `?v=날짜` 값을 바꿔 주세요. 휴대폰(특히 카카오톡 안 브라우저)이 예전 파일을 붙잡고 있지 않고 바로 새 파일을 받습니다.
-아래 파일 설명은 각 버전 폴더 안 기준입니다.
+아래 파일 설명은 루트(및 각 보관 폴더) 기준입니다.
 
 ```
 index.html          메인 — 탭 4개: 사례 체험 / 만드는 방법 / 소개 / 부스 이용 순서

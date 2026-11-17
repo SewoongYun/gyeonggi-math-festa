@@ -8,11 +8,12 @@ GitHub Pages에 그대로 올리면 동작하며, 작품의 목적·수학적 �
 
 | 폴더 | 내용 | 주소 |
 |------|------|------|
-| `2차/` | 최신 버전. 첫 화면 배경에 y = sin x, y = cos x 좌표평면, 수식 띠 | https://sewoongyun.github.io/gyeonggi-math-festa/ (자동으로 2차로 이동) |
+| `3차/` | 최신 버전. 종이·먹·가는 선의 정돈된 디자인(MATH LAB 포트폴리오 느낌), 배경 좌표평면, 먹색 수식 띠 | https://sewoongyun.github.io/gyeonggi-math-festa/ (자동으로 3차로 이동) |
+| `2차/` | 파스텔 디자인에 배경 좌표평면과 수식 띠 | https://sewoongyun.github.io/gyeonggi-math-festa/2차/ |
 | `1차/` | 이전 버전 그대로 보존 | https://sewoongyun.github.io/gyeonggi-math-festa/1차/ |
 
-루트의 `index.html`, `admin.html`, `print.html`은 2차로 넘겨 주는 안내 페이지입니다(이미 퍼진 QR과 `#app=` 링크가 그대로 동작).
-새 버전을 만들 때는 최신 폴더를 복사해 `3차/`로 만들고, 루트 안내 페이지의 `2차/`를 `3차/`로 바꾸면 됩니다.
+루트의 `index.html`, `admin.html`, `print.html`은 최신 버전(3차)으로 넘겨 주는 안내 페이지입니다(이미 퍼진 QR과 `#app=` 링크가 그대로 동작).
+새 버전을 만들 때는 최신 폴더를 복사해 `4차/`로 만들고, 루트 안내 페이지의 `3차/`를 `4차/`로 바꾸면 됩니다.
 아래 파일 설명은 각 버전 폴더 안 기준입니다.
 
 ```

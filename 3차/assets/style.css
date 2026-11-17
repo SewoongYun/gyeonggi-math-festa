@@ -688,3 +688,32 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 /* 상세 창: 구분 색 탭 */
 .dtab[aria-selected="true"] { background: var(--teal); }
+
+/* ═══ 휴대폰: 표가 화면 밖으로 잘리지 않게 한 줄씩 세워서 보여 줌 ═══ */
+@media (max-width: 640px) {
+  .compare .col { padding: 20px 18px; }
+  .table, .table tbody, .table tr, .table td { display: block; width: 100%; }
+  .table { border-radius: 12px; }
+  .table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .table tr { padding: 14px 16px; border-bottom: 1px solid var(--line); }
+  .table tr:last-child { border-bottom: 0; }
+  .table td { padding: 0; border: 0; }
+  .table td + td { margin-top: 8px; }
+  .table td:first-child { font-weight: 800; font-size: 1.05rem; color: var(--ink); }
+  .table td + td[data-label]::before { content: attr(data-label); display: block; font-size: .82rem; font-weight: 700; color: var(--muted); margin-bottom: 2px; }
+}
+
+/* 휴대폰에서 이중 여백 없애기, 카드·실습 머리가 화면 밖으로 밀리지 않게 */
+.content .wrap { padding-left: 0; padding-right: 0; max-width: none; }
+.grid { grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)); }
+.practice-card > summary > div { flex: 1 1 auto; min-width: 0; }
+@media (max-width: 640px) {
+  .practice-card > summary { padding: 18px 16px; gap: 12px; }
+  .practice-card > summary .idx { width: 44px; height: 44px; border-radius: 14px; font-size: 1.1rem; }
+  .practice-card .content { padding: 4px 16px 22px; }
+  .prompt { padding: 46px 14px 16px; }
+}
+@media (max-width: 400px) {
+  .tabbar { gap: 2px; padding: 4px; }
+  .main-tab { padding: 8px 10px; font-size: .84rem; }
+}

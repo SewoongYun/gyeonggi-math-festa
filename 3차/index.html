@@ -347,5 +347,14 @@
 
 <script src="assets/app.js"></script>
 <script src="assets/plot.js"></script>
+<script>
+  // 휴대폰에서 표를 칸별로 세워 보여 줄 때 쓸 칸 이름(머리글)을 각 칸에 붙인다
+  document.querySelectorAll(".table").forEach(function (t) {
+    var heads = Array.prototype.map.call(t.querySelectorAll("thead th"), function (th) { return th.textContent.trim(); });
+    t.querySelectorAll("tbody tr").forEach(function (tr) {
+      Array.prototype.forEach.call(tr.children, function (td, i) { if (heads[i]) td.setAttribute("data-label", heads[i]); });
+    });
+  });
+</script>
 </body>
 </html>

@@ -8,8 +8,8 @@
 <noscript><style>.tab-panel[hidden] { display: block; }</style></noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=20261117c">
-<script src="config.js?v=20261117c"></script>
+<link rel="stylesheet" href="assets/style.css?v=20261122a">
+<script src="config.js?v=20261122a"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
@@ -95,17 +95,19 @@
     <div class="wrap">
       <div class="sec-head">
         <div>
-          <h2>작품을 직접 체험해 보세요</h2>
+          <h2>체험을 골라 직접 해 보세요</h2>
           <p><strong>카드를 누르면</strong> 목적·수학적 내용·프로그램 설명과 만드는 방법이 열립니다. 내용은 연구회 구글 시트에서 관리되며, QR로 휴대폰에서 바로 열 수 있습니다.</p>
         </div>
         <span class="source-badge" id="source-badge"><span class="dot"></span>불러오는 중…</span>
       </div>
-      <div class="toolbar">
+      <div class="sessions" id="sessions" role="tablist" aria-label="체험 선택"></div>
+      <p class="session-extra" id="session-extra"></p>
+      <div class="toolbar" id="toolbar">
         <div class="filters" id="tabs" role="tablist" aria-label="구분 필터"></div>
         <div class="search"><label class="sr-only" for="search">검색</label><input id="search" type="search" placeholder="단원·키워드 검색 (예: 수열, 집합)"></div>
       </div>
       <div class="grid" id="app-grid"><div class="empty">작품 목록을 불러오는 중입니다…</div></div>
-      <p class="note">※ 웹앱은 외부 서비스(Canva·Netlify·Google Apps Script)에서 실행됩니다. 피드백 웹앱의 체험용 비밀번호는 각 작품 설명에 있습니다.</p>
+      <p class="note" id="cases-note">※ 웹앱은 외부 서비스(Canva·Netlify·Google Apps Script)에서 실행됩니다. 피드백 웹앱의 체험용 비밀번호는 각 작품 설명에 있습니다.</p>
     </div>
   </section>
 
@@ -361,8 +363,8 @@
 
 <div class="modal" id="app-modal" hidden role="dialog" aria-modal="true" aria-label="작품 상세"><div class="dialog"></div></div>
 
-<script src="assets/app.js?v=20261117c"></script>
-<script src="assets/plot.js?v=20261117c"></script>
+<script src="assets/app.js?v=20261122a"></script>
+<script src="assets/plot.js?v=20261122a"></script>
 <script>
   // 휴대폰에서 표를 칸별로 세워 보여 줄 때 쓸 칸 이름(머리글)을 각 칸에 붙인다
   document.querySelectorAll(".table").forEach(function (t) {

@@ -9,7 +9,31 @@
   const CATS = {
     hybrid:   { label: "Hybrid 체험수학 2.0", short: "체험수학 2.0" },
     feedback: { label: "평가 피드백 자동화", short: "평가 피드백" },
-    vibe:     { label: "바이브 코딩 작업물", short: "바이브 코딩" }
+    vibe:     { label: "바이브 코딩 작업물", short: "바이브 코딩" },
+    integrated: { label: "통합설계 사례 나눔", short: "체험2 통합설계" },
+    regional:   { label: "지역연계 체험 수학", short: "체험3 지역연계" }
+  };
+  // 부스의 체험 1·2·3 ─ planned 카드는 제목이 match 에 맞는 작품이 시트에 올라오면 사라진다
+  const SESSIONS = {
+    exp1: {
+      name: "체험1", title: "AI 활용 Hybrid 체험수학 2.0 및 평가 피드백 자동화 실습", cats: ["hybrid", "feedback", "vibe"],
+      extra: ["웹 공유 프로그램 제작 방법"], planned: []
+    },
+    exp2: {
+      name: "체험2", title: "통합설계 사례 나눔", cats: ["integrated"],
+      extra: ["교육과정-수업-평가 통합설계 사례", "체험수학 수업 연계 사례"],
+      planned: [{ title: "이차곡선 웹앱", match: /이차\s*곡선/ }, { title: "포물선 게임", match: /포물선.*게임/ }]
+    },
+    exp3: {
+      name: "체험3", title: "지역연계 체험 수학", cats: ["regional"],
+      extra: ["경기형 AI 교수학습 플랫폼 수업콘텐츠 개발 자료"],
+      planned: [{ title: "지역연계 체험 수학", match: /./ }]
+    }
+  };
+  // 체험2·3은 먼저 가려낸다. 아래 별칭의 '체험', '평가'에 걸리기 때문 ('체험수학 2.0'은 여기에 안 걸림)
+  const CAT_PATTERNS = {
+    integrated: /^integrated$|체험\s*2(?![.\d])|통합\s*설계/,
+    regional: /^regional$|체험\s*3(?![.\d])|지역\s*연계/
   };
   const CAT_ALIASES = {
     hybrid: ["hybrid", "체험수학", "체험수학 2.0", "체험", "실습1"],
@@ -37,6 +61,7 @@
 
   function normalizeCategory(v) {
     const s = String(v || "").trim().toLowerCase();
+    for (const key of Object.keys(CAT_PATTERNS)) if (CAT_PATTERNS[key].test(s)) return key;
     for (const key of Object.keys(CAT_ALIASES)) {
       if (CAT_ALIASES[key].some(a => s === a.toLowerCase() || s.includes(a.toLowerCase()))) return key;
     }
@@ -142,7 +167,11 @@
   const grid = document.getElementById("app-grid");
   if (!grid) return;
 
-  const state = { rows: [], filter: "all", query: "" };
+  const state = { rows: [], loaded: false, session: "exp1", filter: "all", query: "" };
+  const sessionsEl = document.getElementById("sessions");
+  const extraEl = document.getElementById("session-extra");
+  const toolbarEl = document.getElementById("toolbar");
+  const noteEl = document.getElementById("cases-note");
   const tabsEl = document.getElementById("tabs");
   const searchEl = document.getElementById("search");
   const badge = document.getElementById("source-badge");
@@ -165,18 +194,48 @@
   }));
   document.querySelectorAll("[data-tab-link]").forEach(a => a.addEventListener("click", () => showTab(a.dataset.tabLink)));
 
+  /* 체험 1·2·3 선택 */
+  function sessionRows(key) { return state.rows.filter(r => r.visible && SESSIONS[key].cats.includes(r.category)); }
+  function sessionOf(category) { return Object.keys(SESSIONS).find(k => SESSIONS[k].cats.includes(category)); }
+  function selectSession(key) {
+    if (key !== state.session) {
+      state.filter = "all"; state.query = "";
+      if (searchEl) searchEl.value = "";
+    }
+    state.session = key;
+    renderSessions();
+    if (state.loaded) { renderTabs(); renderGrid(); }
+  }
+  function renderSessions() {
+    sessionsEl.querySelectorAll(".session").forEach(b => {
+      const n = sessionRows(b.dataset.session).length;
+      b.setAttribute("aria-selected", String(b.dataset.session === state.session));
+      b.querySelector(".state").textContent = !state.loaded ? "" : n ? n + "개" : "준비 중";
+    });
+    extraEl.innerHTML = "<b>추가 안내</b>" + SESSIONS[state.session].extra.map(x => "<span>" + esc(x) + "</span>").join("");
+    const first = state.session === "exp1";
+    tabsEl.hidden = !first;
+    noteEl.hidden = !first;
+    toolbarEl.hidden = !first && !sessionRows(state.session).length;
+  }
+  Object.entries(SESSIONS).forEach(([key, s]) => {
+    const b = el("button", { class: "session", type: "button", role: "tab", "data-session": key, onclick: () => { selectSession(key); history.replaceState(null, "", "#" + key); } });
+    b.innerHTML = '<span class="name">' + esc(s.name) + '<span class="state"></span></span><span class="title">' + esc(s.title) + "</span>";
+    sessionsEl.append(b);
+  });
+
   /* 갤러리 */
   function visibleRows() {
-    return state.rows.filter(r => r.visible)
+    return sessionRows(state.session)
       .filter(r => state.filter === "all" || r.category === state.filter)
       .filter(r => { if (!state.query) return true; const q = state.query.toLowerCase(); return [r.title, r.subtitle, r.tags, r.math, r.purpose, r.maker].join(" ").toLowerCase().includes(q); })
       .sort((a, b) => a.order - b.order || a.title.localeCompare(b.title, "ko"));
   }
   function renderTabs() {
     const counts = { all: 0 };
-    state.rows.filter(r => r.visible).forEach(r => { counts.all++; counts[r.category] = (counts[r.category] || 0) + 1; });
+    sessionRows(state.session).forEach(r => { counts.all++; counts[r.category] = (counts[r.category] || 0) + 1; });
     tabsEl.innerHTML = "";
-    [["all", "전체"]].concat(Object.keys(CATS).map(k => [k, CATS[k].label])).forEach(([key, label]) => {
+    [["all", "전체"]].concat(SESSIONS[state.session].cats.map(k => [k, CATS[k].label])).forEach(([key, label]) => {
       const b = el("button", { class: "filter", role: "tab", "aria-selected": String(state.filter === key), onclick: () => { state.filter = key; renderTabs(); renderGrid(); } });
       b.innerHTML = esc(label) + '<span class="count">' + (counts[key] || 0) + "</span>";
       tabsEl.append(b);
@@ -185,7 +244,9 @@
   function renderGrid() {
     const rows = visibleRows();
     grid.innerHTML = "";
-    if (!rows.length) { grid.append(el("div", { class: "empty" }, ["표시할 작품이 없습니다."])); return; }
+    const all = sessionRows(state.session);
+    const planned = state.query ? [] : SESSIONS[state.session].planned.filter(p => !all.some(r => p.match.test(r.title)));
+    if (!rows.length && !planned.length) { grid.append(el("div", { class: "empty" }, ["표시할 작품이 없습니다."])); return; }
     rows.forEach((r, i) => {
       const cat = CATS[r.category];
       const card = el("button", { class: "card " + r.category, type: "button", "aria-label": r.title + " 자세히 보기", onclick: () => openModal(r.id) });
@@ -195,6 +256,11 @@
         '<p class="sub">' + esc(r.subtitle) + "</p>" +
         (r.tagList.length ? '<div class="tags">' + r.tagList.slice(0, 4).map(t => "<span>" + esc(t) + "</span>").join("") + "</div>" : "") +
         '<div class="foot">' + (r.url ? '<span class="go">바로 열어 보기</span>' : '<span class="nolink">부스에서 시연</span>') + '<span class="more">자세히</span></div>';
+      grid.append(card);
+    });
+    planned.forEach(p => {
+      const card = el("div", { class: "card planned" });
+      card.innerHTML = "<h3>" + esc(p.title) + '</h3><p class="sub">담당 선생님의 자료를 받는 대로 체험 링크와 설명을 올립니다.</p><div class="foot"><span class="nolink">자료 준비 중</span></div>';
       grid.append(card);
     });
   }
@@ -241,7 +307,7 @@
   }
   function closeModal() {
     modal.hidden = true; document.body.style.overflow = "";
-    if (location.hash.startsWith("#app=")) history.replaceState(null, "", location.pathname + location.search + "#cases");
+    if (location.hash.startsWith("#app=")) history.replaceState(null, "", location.pathname + location.search + "#" + state.session);
   }
   modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
@@ -250,11 +316,24 @@
     const h = location.hash;
     if (!h.startsWith("#app=") && !modal.hidden) { modal.hidden = true; document.body.style.overflow = ""; }
     if (PANELS.includes(h.slice(1))) { showTab(h.slice(1)); return; }
+    // #exp2 처럼 체험별 주소로 들어오면 해당 체험을 바로 보여 준다 (통합 사이트·홍보물 QR용)
+    if (SESSIONS.hasOwnProperty(h.slice(1))) {
+      showTab("cases"); selectSession(h.slice(1));
+      window.scrollTo({ top: document.querySelector(".layout").getBoundingClientRect().top + window.scrollY - 70, behavior: "instant" });
+      return;
+    }
     const m = h.match(/^#app=(.+)$/);
-    if (m) { showTab("cases"); openModal(decodeURIComponent(m[1])); }
+    if (m) {
+      const id = decodeURIComponent(m[1]), r = state.rows.find(x => x.id === id);
+      showTab("cases");
+      if (r) selectSession(sessionOf(r.category));
+      openModal(id);
+    }
   }
   window.addEventListener("hashchange", openFromHash);
-  if (PANELS.includes(location.hash.slice(1))) showTab(location.hash.slice(1)); else if (!location.hash.startsWith("#app=")) showTab("about");
+  if (PANELS.includes(location.hash.slice(1))) showTab(location.hash.slice(1)); else if (SESSIONS.hasOwnProperty(location.hash.slice(1))) { showTab("cases"); state.session = location.hash.slice(1); } else if (!location.hash.startsWith("#app=")) showTab("about");
+  renderSessions();
+
 
   searchEl && searchEl.addEventListener("input", () => { state.query = searchEl.value.trim(); renderGrid(); });
 
@@ -272,7 +351,8 @@
 
   loadApps().then(result => {
     state.rows = result.rows;
-    renderTabs(); renderGrid(); openFromHash();
+    state.loaded = true;
+    renderSessions(); renderTabs(); renderGrid(); openFromHash();
     if (badge) {
       badge.className = "source-badge " + (result.source === "sheet" || result.source === "csv" ? "live" : (result.errors && result.errors.length ? "warn" : ""));
       badge.innerHTML = '<span class="dot"></span>' + esc(result.note);

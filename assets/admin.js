@@ -2,6 +2,8 @@
 (function () {
   const CFG = window.SITE_CONFIG || {};
   const { CATS, loadApps, normalizeRow, el, esc, toast, makeQR } = window.AppData;
+  // 시트 구분 칸의 드롭다운 목록과 같은 값으로 저장한다 (영문 키를 쓰면 시트에 경고 표시가 뜸)
+  const SHEET_LABEL = { hybrid: "체험수학 2.0", feedback: "평가 피드백", vibe: "바이브 코딩", integrated: "체험2", regional: "체험3" };
   const FIELDS = ["id", "category", "title", "subtitle", "url", "purpose", "math", "description", "howto", "maker", "tags", "visible", "order"];
   const form = document.getElementById("app-form");
   const list = document.getElementById("row-list");
@@ -94,6 +96,7 @@
       const n = form.elements[f]; if (!n) return;
       let v = r ? r[f] : (f === "order" ? 100 : f === "visible" ? "Y" : f === "category" ? "hybrid" : "");
       if (f === "visible" && r) v = r.visible ? "Y" : "N";
+      if (f === "category") v = SHEET_LABEL[r ? r.category : "hybrid"];
       n.value = v == null ? "" : v;
     });
     form.elements.id.readOnly = !!r;

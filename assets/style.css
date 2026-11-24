@@ -806,3 +806,17 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .trio-list .t1 { background: var(--teal-soft); }
 .trio-list .t2 { background: var(--yellow-soft); }
 .trio-list .t3 { background: var(--coral-soft); }
+
+/* ═══ 소개 탭: 실습 순서를 번호 단계로 강조 (누르면 해당 실습이 펼쳐짐) ═══ */
+.practice-steps { margin-top: 18px; padding: 16px; background: var(--paper); border: 2px solid var(--blue); border-radius: 16px; }
+.practice-steps > b { display: block; margin-bottom: 10px; font-size: 1.05rem; color: var(--blue-ink); }
+.practice-steps ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.practice-steps a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); text-decoration: none; transition: border-color .15s; }
+.practice-steps a:hover { border-color: var(--ink); }
+.practice-steps .n { flex: 0 0 auto; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; color: var(--on-ink); font-family: var(--font-display); font-weight: 800; }
+.practice-steps li:nth-child(1) .n { background: var(--blue); }
+.practice-steps li:nth-child(2) .n { background: var(--teal); }
+.practice-steps li:nth-child(3) .n { background: var(--coral); }
+.practice-steps .tx { min-width: 0; }
+.practice-steps .tx b { display: block; font-size: 1rem; }
+.practice-steps .tx small { display: block; color: var(--ink-2); font-size: .88rem; line-height: 1.45; word-break: keep-all; }

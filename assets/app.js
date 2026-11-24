@@ -339,6 +339,19 @@
 
   searchEl && searchEl.addEventListener("input", () => { state.query = searchEl.value.trim(); renderGrid(); });
 
+  // 실습 순서 링크: 「만드는 방법」 탭에서 해당 실습을 펼쳐 보여 준다
+  document.querySelectorAll("[data-practice]").forEach(a => a.addEventListener("click", e => {
+    e.preventDefault();
+    const cards = document.querySelectorAll("#howto .practice-card");
+    const card = cards[Number(a.dataset.practice) - 1];
+    showTab("howto");
+    history.replaceState(null, "", "#howto");
+    cards.forEach(c => { c.open = c === card; });
+    // PC는 머리글만, 휴대폰은 머리글 아래 탭 막대까지 비켜서 멈춘다
+    const gap = window.matchMedia("(min-width: 1024px)").matches ? 90 : 150;
+    if (card) window.scrollTo({ top: card.getBoundingClientRect().top + window.scrollY - gap, behavior: "smooth" });
+  }));
+
   // 프롬프트 복사 버튼
   document.querySelectorAll(".prompt").forEach(p => {
     const b = el("button", { class: "copy", type: "button" }, ["복사"]);

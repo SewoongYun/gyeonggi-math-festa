@@ -14,8 +14,8 @@
 <noscript><style>.tab-panel[hidden] { display: block; }</style></noscript>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=20261124e">
-<script src="config.js?v=20261124e"></script>
+<link rel="stylesheet" href="assets/style.css?v=20261124f">
+<script src="config.js?v=20261124f"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
@@ -67,18 +67,6 @@
           <div><dt>장소</dt><dd>수원컨벤션센터</dd></div>
           <div><dt>부스</dt><dd>해봄 59</dd></div>
         </dl>
-      </div>
-      <div class="pillars">
-        <a class="pillar one" href="#cases" data-tab-link="cases">
-          <h2>AI활용 Hybrid 체험수학 2.0과 평가 피드백 자동화</h2>
-          <p>원순열·집합·수열·극한을 직접 조작하는 디지털 체험 웹앱과, 학생 풀이에 개별 피드백을 자동으로 주는 시스템.</p>
-          <span class="arrow">작품 체험하기</span>
-        </a>
-        <a class="pillar two" href="#howto" data-tab-link="howto">
-          <h2>바이브 코딩과 AI를 활용한 학생 맞춤형 수업</h2>
-          <p>메타프롬프트 한 장에서 Canva AI 다듬기, Apps Script와 Gemini 비계 피드백까지 우리가 실제로 거친 제작 과정.</p>
-          <span class="arrow">실습 세 가지 따라 하기</span>
-        </a>
       </div>
     </div>
     <button class="calm-toggle" id="calm-toggle" type="button" aria-pressed="false">배경 움직임 멈추기</button>
@@ -340,8 +328,15 @@
               <tr><td>평가·피드백</td><td>풀이 속 숨은 오류 탐지, 루브릭 채점, 비계 질문</td><td>Snorkl, Clipo, Apps Script + Gemini</td></tr>
             </tbody>
           </table>
+          <div class="practice-steps">
+            <b>실습 순서</b>
+            <ol>
+              <li><a href="#howto" data-practice="1"><span class="n">1</span><span class="tx"><b>메타프롬프트</b><small>말로 쓰는 설계도로 탐구 자료 만들기</small></span></a></li>
+              <li><a href="#howto" data-practice="2"><span class="n">2</span><span class="tx"><b>Canva AI 고도화</b><small>심슨의 역설 웹앱을 세 번의 프롬프트로 다듬기</small></span></a></li>
+              <li><a href="#howto" data-practice="3"><span class="n">3</span><span class="tx"><b>AI 비계 피드백</b><small>정답 대신 질문을 주는 피드백 설계하기</small></span></a></li>
+            </ol>
+          </div>
           <ul class="small">
-            <li>실습 순서: 메타프롬프트, Canva AI 고도화, AI 비계 피드백</li>
             <li>핵심: 도구 사용법보다 '수업 목적에 맞는 AI 활용'과 '교사의 검증·판단'</li>
           </ul>
         </div>
@@ -388,8 +383,8 @@
 
 <div class="modal" id="app-modal" hidden role="dialog" aria-modal="true" aria-label="작품 상세"><div class="dialog"></div></div>
 
-<script src="assets/app.js?v=20261124e"></script>
-<script src="assets/plot.js?v=20261124e"></script>
+<script src="assets/app.js?v=20261124f"></script>
+<script src="assets/plot.js?v=20261124f"></script>
 <script>
   // 휴대폰에서 표를 칸별로 세워 보여 줄 때 쓸 칸 이름(머리글)을 각 칸에 붙인다
   document.querySelectorAll(".table").forEach(function (t) {

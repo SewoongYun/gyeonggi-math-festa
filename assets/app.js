@@ -21,8 +21,8 @@
     },
     exp2: {
       name: "체험2", title: "통합설계 사례 나눔", cats: ["integrated"],
-      extra: ["교육과정-수업-평가 통합설계 사례", "체험수학 수업 연계 사례"],
-      planned: [{ title: "이차곡선 웹앱", match: /이차\s*곡선/ }, { title: "포물선 게임", match: /포물선.*게임/ }]
+      extra: ["체험수학 수업 연계 사례"],
+      planned: [{ title: "통합설계 실습", match: /통합\s*설계/ }]
     },
     exp3: {
       name: "체험3", title: "지역연계 체험 수학", cats: ["regional"],

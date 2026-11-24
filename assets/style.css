@@ -758,3 +758,40 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .sessions { grid-template-columns: minmax(0, 1fr); }
   .session { padding: 12px 14px; }
 }
+
+/* ═══ 연구회 드러내기: 첫 화면 띠, 소개 탭 머리, QR 인쇄 머리 ═══ */
+.org-strip { display: flex; align-items: center; gap: 18px; width: 100%; max-width: 900px; margin-top: 48px; padding: 18px 22px; background: var(--paper); border: 1px solid var(--ink); border-radius: var(--r); text-align: left; }
+.org-strip .logo { width: 52px; height: 52px; flex: 0 0 auto; }
+.org-name { flex: 1 1 auto; min-width: 0; }
+.org-name b { display: block; font-family: var(--font-display); font-size: 1.35rem; letter-spacing: -0.02em; }
+.org-name span { display: block; color: var(--ink-2); font-size: .95rem; line-height: 1.5; word-break: keep-all; }
+.org-meta { display: flex; gap: 22px; margin: 0; flex: 0 0 auto; }
+.org-meta dt { font-size: .78rem; font-weight: 700; color: var(--muted); }
+.org-meta dd { margin: 0; font-weight: 800; white-space: nowrap; }
+.org-strip + .pillars { margin-top: 16px; }
+@media (max-width: 720px) {
+  .org-strip { flex-wrap: wrap; gap: 12px 14px; margin-top: 36px; padding: 16px; }
+  .org-strip .logo { width: 44px; height: 44px; }
+  .org-name { flex-basis: calc(100% - 58px); }
+  .org-meta { width: 100%; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--line); }
+}
+
+.org-intro { margin-bottom: 56px; padding-bottom: 48px; border-bottom: 1px solid var(--line-2); }
+.org-intro h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.2vw, 2.5rem); letter-spacing: -0.03em; word-break: keep-all; }
+.org-intro > p { max-width: 62ch; margin: 12px 0 24px; color: var(--ink-2); font-size: 1.02rem; }
+.exp-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.exp-card { display: flex; flex-direction: column; gap: 6px; padding: 20px; border: 2px solid transparent; border-radius: var(--r); color: var(--ink); text-decoration: none; transition: border-color .15s; }
+.exp-card.e1 { background: var(--teal-soft); --c: var(--teal); }
+.exp-card.e2 { background: var(--yellow-soft); --c: var(--yellow-ink); }
+.exp-card.e3 { background: var(--coral-soft); --c: var(--coral); }
+.exp-card:hover { border-color: var(--c); }
+.exp-card b { font-size: 1.05rem; }
+.exp-card span { font-weight: 700; line-height: 1.45; word-break: keep-all; }
+.exp-card small { color: var(--ink-2); font-size: .9rem; line-height: 1.5; word-break: keep-all; }
+@media (max-width: 760px) { .exp-cards { grid-template-columns: minmax(0, 1fr); } }
+
+.print-head { display: flex; align-items: center; gap: 14px; margin: 18px 0 14px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+.print-head .logo { width: 44px; height: 44px; flex: 0 0 auto; }
+.print-head b { display: block; font-size: 1.25rem; }
+.print-head span { color: var(--muted); }
+.print-head p { margin: 0 0 0 auto; font-weight: 700; }

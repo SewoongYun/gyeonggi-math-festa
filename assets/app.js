@@ -195,7 +195,9 @@
   document.querySelectorAll("[data-tab-link]").forEach(a => a.addEventListener("click", () => showTab(a.dataset.tabLink)));
 
   /* 체험 1·2·3 선택 */
-  function sessionRows(key) { return state.rows.filter(r => r.visible && SESSIONS[key].cats.includes(r.category)); }
+  // 체험 링크가 없는 작품은 사이트에 내보이지 않는다 (시트에 링크를 넣으면 다시 나타남)
+  function shown(r) { return r.visible && !!r.url; }
+  function sessionRows(key) { return state.rows.filter(r => shown(r) && SESSIONS[key].cats.includes(r.category)); }
   function sessionOf(category) { return Object.keys(SESSIONS).find(k => SESSIONS[k].cats.includes(category)); }
   function selectSession(key) {
     if (key !== state.session) {
@@ -267,7 +269,7 @@
 
   /* 상세 모달 */
   function openModal(id) {
-    const r = state.rows.find(x => x.id === id);
+    const r = state.rows.find(x => x.id === id && shown(x));
     if (!r) return;
     const cat = CATS[r.category];
     const detail = (title, body, wide) => '<section class="detail' + (wide ? " wide" : "") + '"><h4>' + title + '</h4><div class="body">' + esc(body) + "</div></section>";

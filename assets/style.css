@@ -795,3 +795,14 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .print-head b { display: block; font-size: 1.25rem; }
 .print-head span { color: var(--muted); }
 .print-head p { margin: 0 0 0 auto; font-weight: 700; }
+
+/* ═══ 소개 탭: 체험 1·2·3을 아우르는 왼쪽 칸 ═══ */
+.compare .col.trio { background: var(--paper); border-color: var(--line-2); }
+.compare .col.trio h3 { color: var(--ink); }
+.trio-list { display: grid; gap: 10px; margin-top: 16px; }
+.trio-list > div { padding: 14px 16px; border-radius: 14px; font-size: .98rem; line-height: 1.6; }
+.trio-list b { display: block; margin-bottom: 4px; font-size: 1.02rem; word-break: keep-all; }
+.trio-list span { display: block; margin-top: 6px; font-size: .9rem; }
+.trio-list .t1 { background: var(--teal-soft); }
+.trio-list .t2 { background: var(--yellow-soft); }
+.trio-list .t3 { background: var(--coral-soft); }

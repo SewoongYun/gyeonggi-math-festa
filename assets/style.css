@@ -820,3 +820,24 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .practice-steps .tx { min-width: 0; }
 .practice-steps .tx b { display: block; font-size: 1rem; }
 .practice-steps .tx small { display: block; color: var(--ink-2); font-size: .88rem; line-height: 1.45; word-break: keep-all; }
+
+/* ═══ 체험 안의 자료 탭: 체험2 통합설계 실습 + 수업 연계 PDF ═══ */
+.subtabs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: -6px 0 22px; }
+.subtabs[hidden], .material[hidden], .grid[hidden] { display: none; }
+.subtab { padding: 8px 14px; border: 1.5px solid var(--line-2); border-radius: 999px; background: var(--paper); font: inherit; font-size: .9rem; font-weight: 700; color: var(--ink-2); cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; }
+.subtab:hover { border-color: var(--ink); color: var(--ink); }
+.subtab[aria-selected="true"] { background: var(--yellow); border-color: var(--yellow); color: var(--ink); }
+.subtabs .drive { margin-left: auto; font-size: .9rem; font-weight: 700; color: var(--blue-ink); text-decoration: underline; text-underline-offset: 3px; }
+.material { padding: 20px; background: var(--paper); border: 1px solid var(--line-2); border-radius: var(--r); }
+.mat-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.mat-head h3 { flex: 1 1 280px; margin: 0; font-size: 1.2rem; line-height: 1.45; word-break: keep-all; }
+.mat-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mat-files { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.pdf-frame { display: block; width: 100%; height: 78vh; min-height: 520px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg-2); }
+.mat-mobile { display: none; margin: 4px 0 0; color: var(--ink-2); }
+@media (max-width: 760px) {
+  .subtabs .drive { margin-left: 0; width: 100%; }
+  .pdf-frame, .mat-files { display: none; }
+  .mat-mobile { display: block; }
+  .material { padding: 16px; }
+}

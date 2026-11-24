@@ -21,8 +21,23 @@
     },
     exp2: {
       name: "체험2", title: "통합설계 사례 나눔", cats: ["integrated"],
-      extra: ["체험수학 수업 연계 사례"],
-      planned: [{ title: "통합설계 실습", match: /통합\s*설계/ }]
+      extra: ["체험수학 수업 연계 자료 8종(아래 ①~⑧ 탭)"],
+      planned: [{ title: "통합설계 실습", match: /통합\s*설계/ }],
+      // 탭을 누르면 저장소의 PDF를 바로 보여 준다. 전체 자료는 공유 드라이브에도 있다.
+      materials: {
+        main: "통합설계 실습",
+        drive: "https://drive.google.com/drive/folders/15g-ga4lkSPLpJl53UJ8urBNRC_FLyG1R?usp=drive_link",
+        items: [
+          { tab: "① 지오데식 돔", title: "① 건축 속 수학 찾기: 지오데식 돔의 수열", files: [["PDF", "materials/exp2/01-geodesic-dome.pdf"]] },
+          { tab: "② 삼수선 정리", title: "② 삼수선 정리(기하)", files: [["PDF", "materials/exp2/02-three-perpendiculars.pdf"]] },
+          { tab: "③ 과자 많이 담아가기", title: "③ 과자 많이 담아가기(수학2 미적분 활용)", files: [["PDF", "materials/exp2/03-snack-box-calculus.pdf"]] },
+          { tab: "④ 정적분과 급수", title: "④ 컴퓨터 프로그램으로 발견하는 정적분과 급수의 관계", files: [["PDF", "materials/exp2/04-integral-and-series.pdf"]] },
+          { tab: "⑤ 카발리에리의 원리", title: "⑤ 잘라서 비교하면 부피가 보인다! 카발리에리의 원리", files: [["PDF", "materials/exp2/05-cavalieri.pdf"]] },
+          { tab: "⑥ 레고 확률 실험", title: "⑥ 레고 스파이크 프라임을 활용한 수학적 확률과 통계적 확률의 이해", files: [["발표 자료", "materials/exp2/06-lego-spike-slides.pdf"], ["활동지", "materials/exp2/06-lego-spike-worksheet.pdf"]] },
+          { tab: "⑦ 주사위 실험", title: "⑦ 주사위실험(확률과 통계 큰수의 법칙)", files: [["PDF", "materials/exp2/07-dice-law-of-large-numbers.pdf"]] },
+          { tab: "⑧ 이항분포기", title: "⑧ 이항분포기로 배우는 확률과 통계", files: [["PDF", "materials/exp2/08-binomial-board.pdf"]] }
+        ]
+      }
     },
     exp3: {
       name: "체험3", title: "지역연계 체험 수학", cats: ["regional"],
@@ -167,7 +182,7 @@
   const grid = document.getElementById("app-grid");
   if (!grid) return;
 
-  const state = { rows: [], loaded: false, session: "exp1", filter: "all", query: "" };
+  const state = { rows: [], loaded: false, session: "exp1", sub: -1, file: 0, filter: "all", query: "" };
   const sessionsEl = document.getElementById("sessions");
   const extraEl = document.getElementById("session-extra");
   const toolbarEl = document.getElementById("toolbar");
@@ -201,7 +216,7 @@
   function sessionOf(category) { return Object.keys(SESSIONS).find(k => SESSIONS[k].cats.includes(category)); }
   function selectSession(key) {
     if (key !== state.session) {
-      state.filter = "all"; state.query = "";
+      state.filter = "all"; state.query = ""; state.sub = -1; state.file = 0;
       if (searchEl) searchEl.value = "";
     }
     state.session = key;
@@ -219,6 +234,38 @@
     tabsEl.hidden = !first;
     noteEl.hidden = !first;
     toolbarEl.hidden = !first && !sessionRows(state.session).length;
+    renderMaterials();
+  }
+
+  /* 체험 안의 자료 탭 (체험2: 통합설계 실습 + 수업 연계 PDF) */
+  const subEl = el("div", { class: "subtabs", role: "tablist", "aria-label": "체험 자료", hidden: true });
+  const matEl = el("section", { class: "material", hidden: true });
+  extraEl.after(subEl);
+  grid.after(matEl);
+  function renderMaterials() {
+    const m = SESSIONS[state.session].materials;
+    subEl.hidden = !m;
+    if (!m) { matEl.hidden = true; grid.hidden = false; return; }
+    subEl.innerHTML = "";
+    [m.main].concat(m.items.map(x => x.tab)).forEach((label, i) => {
+      const idx = i - 1;
+      subEl.append(el("button", { class: "subtab", type: "button", role: "tab", "aria-selected": String(state.sub === idx), onclick: () => { state.sub = idx; state.file = 0; renderSessions(); } }, [label]));
+    });
+    subEl.append(el("a", { class: "drive", href: m.drive, target: "_blank", rel: "noopener" }, ["공유 드라이브에서 전체 자료 보기"]));
+    const item = m.items[state.sub];
+    grid.hidden = !!item;
+    matEl.hidden = !item;
+    if (!item) return;
+    toolbarEl.hidden = true;
+    const [, href] = item.files[state.file] || item.files[0];
+    matEl.innerHTML =
+      '<div class="mat-head"><h3>' + esc(item.title) + '</h3><div class="mat-actions">' +
+      item.files.map(([label, h]) => '<a class="btn sm" href="' + esc(h) + '" target="_blank" rel="noopener">' + esc(label) + " 새 창으로 열기</a>").join("") +
+      '<a class="btn sm outline" href="' + esc(m.drive) + '" target="_blank" rel="noopener">공유 드라이브</a></div></div>' +
+      (item.files.length > 1 ? '<div class="mat-files" role="tablist" aria-label="파일 고르기">' + item.files.map(([label], i) => '<button type="button" class="subtab" role="tab" data-file="' + i + '" aria-selected="' + (i === state.file) + '">' + esc(label) + "</button>").join("") + "</div>" : "") +
+      '<iframe class="pdf-frame" src="' + esc(href) + '" title="' + esc(item.title) + '"></iframe>' +
+      '<p class="mat-mobile">휴대폰에서는 위의 <b>새 창으로 열기</b>를 누르면 PDF가 열립니다.</p>';
+    matEl.querySelectorAll("[data-file]").forEach(b => b.onclick = () => { state.file = Number(b.dataset.file); renderMaterials(); });
   }
   Object.entries(SESSIONS).forEach(([key, s]) => {
     const b = el("button", { class: "session", type: "button", role: "tab", "data-session": key, onclick: () => { selectSession(key); history.replaceState(null, "", "#" + key); } });

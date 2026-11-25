@@ -353,12 +353,11 @@
       if (token === pdfToken) stage.innerHTML = '<p class="pdf-status">PDF를 화면에 띄우지 못했습니다. 위의 <b>새 창으로 열기</b>를 눌러 주세요.</p>';
     }
   }
-  // 자료 탭을 누르면 뷰어가 한 화면에 들어오게 내린다 (PC는 제목부터, 휴대폰은 쪽 화면부터)
+  // 자료 탭을 누르면 자료 제목부터 뷰어까지 한 화면에 들어오게 내린다 (휴대폰은 위쪽 탭 막대만큼 더 비킨다)
   function showViewer() {
     if (matEl.hidden) return;
     const wide = window.matchMedia("(min-width: 1024px)").matches;
-    const target = wide ? matEl : matEl.querySelector(".pdf-viewer");
-    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - (wide ? 80 : 136), behavior: "smooth" });
+    window.scrollTo({ top: matEl.getBoundingClientRect().top + window.scrollY - (wide ? 80 : 136), behavior: "smooth" });
   }
   // PC 키보드 ←·→ 로도 넘긴다 (입력 중이거나 작품 창이 열려 있을 때는 제외)
   document.addEventListener("keydown", e => {

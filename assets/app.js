@@ -249,7 +249,7 @@
     subEl.innerHTML = "";
     [m.main].concat(m.items.map(x => x.tab)).forEach((label, i) => {
       const idx = i - 1;
-      subEl.append(el("button", { class: "subtab", type: "button", role: "tab", "aria-selected": String(state.sub === idx), onclick: () => { state.sub = idx; state.file = 0; renderSessions(); } }, [label]));
+      subEl.append(el("button", { class: "subtab", type: "button", role: "tab", "aria-selected": String(state.sub === idx), onclick: () => { state.sub = idx; state.file = 0; renderSessions(); showViewer(); } }, [label]));
     });
     subEl.append(el("a", { class: "drive", href: m.drive, target: "_blank", rel: "noopener" }, ["공유 드라이브에서 전체 자료 보기"]));
     const item = m.items[state.sub];
@@ -263,16 +263,16 @@
       item.files.map(([label, h]) => '<a class="btn sm outline" href="' + esc(h) + '" target="_blank" rel="noopener">' + esc(label) + " 새 창으로 열기</a>").join("") +
       "</div></div>" +
       (item.files.length > 1 ? '<div class="mat-files" role="tablist" aria-label="파일 고르기">' + item.files.map(([label], i) => '<button type="button" class="subtab" role="tab" data-file="' + i + '" aria-selected="' + (i === state.file) + '">' + esc(label) + "</button>").join("") + "</div>" : "") +
-      '<div class="pdf-pages" aria-label="' + esc(item.title) + '"></div>';
+      '<div class="pdf-viewer" aria-label="' + esc(item.title) + '"></div>';
     matEl.querySelectorAll("[data-file]").forEach(b => b.onclick = () => { state.file = Number(b.dataset.file); renderMaterials(); });
-    renderPdf(matEl.querySelector(".pdf-pages"), href);
+    renderPdf(matEl.querySelector(".pdf-viewer"), href);
   }
 
   /* PDF를 브라우저 뷰어에 맡기지 않고 PDF.js로 직접 그린다.
    * 휴대폰(삼성 인터넷 포함)은 iframe 속 PDF를 보여 주지 못하고 내려받기로 넘기기 때문.
-   * 쪽마다 화면 너비에 맞춰 그리고, 화면에 가까워진 쪽만 그린 뒤 이미지로 바꿔 메모리를 아낀다. */
+   * 한 화면에 한 쪽씩 보여 주고 넘긴다. 보는 쪽과 다음 쪽만 그려 이미지로 바꿔 메모리를 아낀다. */
   const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
-  let pdfjsReady = null, pdfToken = 0, pdfObserver = null;
+  let pdfjsReady = null, pdfToken = 0, pdfGo = null;
   function loadPdfjs() {
     if (!pdfjsReady) pdfjsReady = new Promise((resolve, reject) => {
       const s = document.createElement("script");
@@ -290,51 +290,82 @@
   }
   async function renderPdf(box, href) {
     const token = ++pdfToken;
-    if (pdfObserver) { pdfObserver.disconnect(); pdfObserver = null; }
-    box.innerHTML = '<p class="pdf-status">PDF를 불러오는 중입니다…</p>';
+    pdfGo = null;
+    box.innerHTML =
+      '<div class="pdf-stage"><p class="pdf-status">PDF를 불러오는 중입니다…</p></div>' +
+      '<div class="pdf-nav"><button type="button" class="btn sm outline" data-go="-1" disabled>이전</button>' +
+      '<span class="pdf-count" aria-live="polite"></span>' +
+      '<button type="button" class="btn sm outline" data-go="1" disabled>다음</button></div>';
+    const stage = box.querySelector(".pdf-stage"), count = box.querySelector(".pdf-count");
+    const [prev, next] = box.querySelectorAll("[data-go]");
     try {
       const lib = await loadPdfjs();
       const doc = await lib.getDocument(href).promise;
       if (token !== pdfToken) return;
-      const first = (await doc.getPage(1)).getViewport({ scale: 1 });
-      box.innerHTML = "";
-      const slots = [];
-      for (let i = 1; i <= doc.numPages; i++) {
-        const slot = el("div", { class: "pdf-page", "data-page": i, role: "img", "aria-label": i + "쪽" });
-        slot.style.aspectRatio = first.width + " / " + first.height;
-        box.append(slot); slots.push(slot);
-      }
-      const drawn = new Set();
-      const draw = async slot => {
-        const n = Number(slot.dataset.page);
-        if (drawn.has(n) || token !== pdfToken) return;
-        drawn.add(n);
-        const page = await doc.getPage(n);
-        const base = page.getViewport({ scale: 1 });
-        // 휴대폰에서 두 손가락으로 확대해도 읽히도록 최소 1000px, 최대 1600px 너비로 그린다
-        const px = Math.min(Math.max(box.clientWidth * Math.min(window.devicePixelRatio || 1, 3), 1000), 1600);
-        const scale = px / base.width;
-        const vp = page.getViewport({ scale });
-        const c = document.createElement("canvas");
-        c.width = Math.round(vp.width); c.height = Math.round(vp.height);
-        await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
-        if (token !== pdfToken) return;
-        const img = new Image();
-        img.alt = n + "쪽";
-        img.src = await new Promise(r => c.toBlob(b => r(URL.createObjectURL(b)), "image/jpeg", 0.9));
-        slot.style.aspectRatio = base.width + " / " + base.height;
-        slot.append(img);
+      // 가로형 자료가 휴대폰에서 위아래로 비지 않게, 쪽 화면을 자료 비율만큼만 높게 둔다
+      const v1 = (await doc.getPage(1)).getViewport({ scale: 1 });
+      const pad = parseFloat(getComputedStyle(stage).paddingTop) * 2 + 2;
+      stage.style.maxHeight = Math.round((stage.clientWidth - pad) * v1.height / v1.width + pad) + "px";
+      const cache = new Map();
+      const draw = n => {
+        if (!cache.has(n)) cache.set(n, (async () => {
+          const page = await doc.getPage(n);
+          const base = page.getViewport({ scale: 1 });
+          // 휴대폰에서 두 손가락으로 확대해도 읽히도록 최소 1000px, 최대 1600px 너비로 그린다
+          const px = Math.min(Math.max(stage.clientWidth * Math.min(window.devicePixelRatio || 1, 3), 1000), 1600);
+          const vp = page.getViewport({ scale: px / base.width });
+          const c = document.createElement("canvas");
+          c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+          await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+          return new Promise(r => c.toBlob(b => r(URL.createObjectURL(b)), "image/jpeg", 0.9));
+        })());
+        return cache.get(n);
       };
-      if ("IntersectionObserver" in window) {
-        pdfObserver = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) draw(e.target); }), { rootMargin: "800px 0px" });
-        slots.forEach(s => pdfObserver.observe(s));
-      } else {
-        for (const s of slots) await draw(s);
-      }
+      let cur = 1;
+      const show = async n => {
+        const target = Math.min(Math.max(n, 1), doc.numPages);
+        cur = target;
+        count.textContent = target + " / " + doc.numPages;
+        prev.disabled = target === 1;
+        next.disabled = target === doc.numPages;
+        const url = await draw(target);
+        if (token !== pdfToken || cur !== target) return;
+        const img = new Image();
+        img.src = url; img.alt = target + "쪽";
+        stage.replaceChildren(img);
+        if (target < doc.numPages) draw(target + 1);
+      };
+      pdfGo = d => show(cur + d);
+      prev.onclick = () => show(cur - 1);
+      next.onclick = () => show(cur + 1);
+      // 쪽의 왼쪽·오른쪽 절반을 누르거나, 휴대폰에서 옆으로 밀어도 넘어간다
+      stage.onclick = e => { const r = stage.getBoundingClientRect(); show(cur + (e.clientX < r.left + r.width / 2 ? -1 : 1)); };
+      let x0 = null;
+      stage.addEventListener("touchstart", e => { x0 = e.touches.length === 1 ? e.touches[0].clientX : null; }, { passive: true });
+      stage.addEventListener("touchend", e => {
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0;
+        x0 = null;
+        if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+      }, { passive: true });
+      await show(1);
     } catch (e) {
-      if (token === pdfToken) box.innerHTML = '<p class="pdf-status">PDF를 화면에 띄우지 못했습니다. 위의 <b>새 창으로 열기</b>를 눌러 주세요.</p>';
+      if (token === pdfToken) stage.innerHTML = '<p class="pdf-status">PDF를 화면에 띄우지 못했습니다. 위의 <b>새 창으로 열기</b>를 눌러 주세요.</p>';
     }
   }
+  // 자료 탭을 누르면 뷰어가 한 화면에 들어오게 내린다 (PC는 제목부터, 휴대폰은 쪽 화면부터)
+  function showViewer() {
+    if (matEl.hidden) return;
+    const wide = window.matchMedia("(min-width: 1024px)").matches;
+    const target = wide ? matEl : matEl.querySelector(".pdf-viewer");
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - (wide ? 80 : 136), behavior: "smooth" });
+  }
+  // PC 키보드 ←·→ 로도 넘긴다 (입력 중이거나 작품 창이 열려 있을 때는 제외)
+  document.addEventListener("keydown", e => {
+    if (!pdfGo || matEl.hidden || !modal.hidden || /input|textarea|select/i.test((e.target.tagName || ""))) return;
+    if (e.key === "ArrowLeft") { pdfGo(-1); e.preventDefault(); }
+    if (e.key === "ArrowRight") { pdfGo(1); e.preventDefault(); }
+  });
   Object.entries(SESSIONS).forEach(([key, s]) => {
     const b = el("button", { class: "session", type: "button", role: "tab", "data-session": key, onclick: () => { selectSession(key); history.replaceState(null, "", "#" + key); } });
     b.innerHTML = '<span class="name">' + esc(s.name) + '<span class="state"></span></span><span class="title">' + esc(s.title) + "</span>";

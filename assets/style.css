@@ -833,12 +833,15 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 .mat-head h3 { flex: 1 1 280px; margin: 0; font-size: 1.2rem; line-height: 1.45; word-break: keep-all; }
 .mat-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .mat-files { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-.pdf-pages { display: grid; gap: 12px; max-width: 900px; margin: 0 auto; }
-.pdf-page { width: 100%; overflow: hidden; background: var(--paper); border: 1px solid var(--line-2); border-radius: 8px; }
-.pdf-page img { display: block; width: 100%; height: auto; }
+/* 한 화면에 한 쪽: 쪽 화면 높이를 창 높이에 맞추고, 쪽은 그 안에 통째로 들어가게 */
+.pdf-stage { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; height: calc(100vh - 300px); min-height: 360px; padding: 10px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; cursor: pointer; touch-action: pan-y pinch-zoom; user-select: none; }
+.pdf-stage img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; background: var(--paper); border: 1px solid var(--line-2); }
+.pdf-nav { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 10px; }
+.pdf-count { min-width: 72px; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums; }
+.pdf-nav .btn:disabled { opacity: .35; cursor: default; }
+@media (max-width: 1023px) { .pdf-stage { height: calc(100vh - 215px); height: calc(100svh - 215px); min-height: 200px; padding: 6px; } }
 .pdf-status { margin: 8px 0; color: var(--ink-2); }
 @media (max-width: 760px) {
   .subtabs .drive { margin-left: 0; width: 100%; }
-  .pdf-pages { gap: 8px; }
   .material { padding: 16px; }
 }

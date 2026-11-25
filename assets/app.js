@@ -260,12 +260,80 @@
     const [, href] = item.files[state.file] || item.files[0];
     matEl.innerHTML =
       '<div class="mat-head"><h3>' + esc(item.title) + '</h3><div class="mat-actions">' +
-      item.files.map(([label, h]) => '<a class="btn sm" href="' + esc(h) + '" target="_blank" rel="noopener">' + esc(label) + " 새 창으로 열기</a>").join("") +
-      '<a class="btn sm outline" href="' + esc(m.drive) + '" target="_blank" rel="noopener">공유 드라이브</a></div></div>' +
+      item.files.map(([label, h]) => '<a class="btn sm outline" href="' + esc(h) + '" target="_blank" rel="noopener">' + esc(label) + " 새 창으로 열기</a>").join("") +
+      "</div></div>" +
       (item.files.length > 1 ? '<div class="mat-files" role="tablist" aria-label="파일 고르기">' + item.files.map(([label], i) => '<button type="button" class="subtab" role="tab" data-file="' + i + '" aria-selected="' + (i === state.file) + '">' + esc(label) + "</button>").join("") + "</div>" : "") +
-      '<iframe class="pdf-frame" src="' + esc(href) + '" title="' + esc(item.title) + '"></iframe>' +
-      '<p class="mat-mobile">휴대폰에서는 위의 <b>새 창으로 열기</b>를 누르면 PDF가 열립니다.</p>';
+      '<div class="pdf-pages" aria-label="' + esc(item.title) + '"></div>';
     matEl.querySelectorAll("[data-file]").forEach(b => b.onclick = () => { state.file = Number(b.dataset.file); renderMaterials(); });
+    renderPdf(matEl.querySelector(".pdf-pages"), href);
+  }
+
+  /* PDF를 브라우저 뷰어에 맡기지 않고 PDF.js로 직접 그린다.
+   * 휴대폰(삼성 인터넷 포함)은 iframe 속 PDF를 보여 주지 못하고 내려받기로 넘기기 때문.
+   * 쪽마다 화면 너비에 맞춰 그리고, 화면에 가까워진 쪽만 그린 뒤 이미지로 바꿔 메모리를 아낀다. */
+  const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/";
+  let pdfjsReady = null, pdfToken = 0, pdfObserver = null;
+  function loadPdfjs() {
+    if (!pdfjsReady) pdfjsReady = new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = PDFJS + "pdf.min.js";
+      s.onload = () => {
+        // 다른 도메인의 워커는 바로 띄울 수 없어 blob 주소로 감싼다
+        const blob = new Blob(['importScripts("' + PDFJS + 'pdf.worker.min.js");'], { type: "text/javascript" });
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
+        resolve(window.pdfjsLib);
+      };
+      s.onerror = () => { pdfjsReady = null; reject(new Error("pdf.js")); };
+      document.head.append(s);
+    });
+    return pdfjsReady;
+  }
+  async function renderPdf(box, href) {
+    const token = ++pdfToken;
+    if (pdfObserver) { pdfObserver.disconnect(); pdfObserver = null; }
+    box.innerHTML = '<p class="pdf-status">PDF를 불러오는 중입니다…</p>';
+    try {
+      const lib = await loadPdfjs();
+      const doc = await lib.getDocument(href).promise;
+      if (token !== pdfToken) return;
+      const first = (await doc.getPage(1)).getViewport({ scale: 1 });
+      box.innerHTML = "";
+      const slots = [];
+      for (let i = 1; i <= doc.numPages; i++) {
+        const slot = el("div", { class: "pdf-page", "data-page": i, role: "img", "aria-label": i + "쪽" });
+        slot.style.aspectRatio = first.width + " / " + first.height;
+        box.append(slot); slots.push(slot);
+      }
+      const drawn = new Set();
+      const draw = async slot => {
+        const n = Number(slot.dataset.page);
+        if (drawn.has(n) || token !== pdfToken) return;
+        drawn.add(n);
+        const page = await doc.getPage(n);
+        const base = page.getViewport({ scale: 1 });
+        // 휴대폰에서 두 손가락으로 확대해도 읽히도록 최소 1000px, 최대 1600px 너비로 그린다
+        const px = Math.min(Math.max(box.clientWidth * Math.min(window.devicePixelRatio || 1, 3), 1000), 1600);
+        const scale = px / base.width;
+        const vp = page.getViewport({ scale });
+        const c = document.createElement("canvas");
+        c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+        await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+        if (token !== pdfToken) return;
+        const img = new Image();
+        img.alt = n + "쪽";
+        img.src = await new Promise(r => c.toBlob(b => r(URL.createObjectURL(b)), "image/jpeg", 0.9));
+        slot.style.aspectRatio = base.width + " / " + base.height;
+        slot.append(img);
+      };
+      if ("IntersectionObserver" in window) {
+        pdfObserver = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) draw(e.target); }), { rootMargin: "800px 0px" });
+        slots.forEach(s => pdfObserver.observe(s));
+      } else {
+        for (const s of slots) await draw(s);
+      }
+    } catch (e) {
+      if (token === pdfToken) box.innerHTML = '<p class="pdf-status">PDF를 화면에 띄우지 못했습니다. 위의 <b>새 창으로 열기</b>를 눌러 주세요.</p>';
+    }
   }
   Object.entries(SESSIONS).forEach(([key, s]) => {
     const b = el("button", { class: "session", type: "button", role: "tab", "data-session": key, onclick: () => { selectSession(key); history.replaceState(null, "", "#" + key); } });

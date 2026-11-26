@@ -41,8 +41,38 @@
     },
     exp3: {
       name: "체험3", title: "지역연계 체험 수학", cats: ["regional"],
-      extra: ["안성·김포·프랑스 지역 연계 사례", "경기형 AI 교수학습 플랫폼 수업콘텐츠 개발 자료"],
-      planned: [{ title: "지역연계 체험 수학", match: /./ }]
+      extra: ["제2부스에서 운영합니다", "경기형 AI 교수학습 플랫폼 수업콘텐츠 개발 자료 홍보"],
+      planned: [],
+      // 작품 카드 대신 보여 줄 소개 (부스 포스터와 A1 포스터 원본 내용)
+      overview: {
+        badge: "사례 4",
+        title: "손으로 만지고 앱으로 확인하는, 지역 연계 체험 수학",
+        tags: ["체험수학", "국제교류", "경기형 AI 플랫폼"],
+        acts: [
+          ["클리노미터로 높이 재기", "각도와 삼각비로 건축물 높이 실측"],
+          ["거울로 높이 재기", "빛의 반사각과 삼각형 닮음 활용"],
+          ["케플러의 추측 단추 넣기", "정육각형 원 배열로 상자에 가득 채우기"]
+        ],
+        cases: [
+          { title: "김포 Hybrid 체험수학 2.0", who: "박현중 교사(하성고)", hook: "손으로 만지고, 앱으로 확인! 교구 × 바이브코딩 수학 놀이터",
+            lines: ["교구 7종: 펜토미노 달력, 수막대, 소마큐브, 오더리 삼각형, 스틱밤, 에셔 도마뱀 큐브, 직교 라틴방진 키캡",
+              "웹앱 5선: 하노이탑 수열탐험, 오일러의 시계탑, 합의 기하학, 극한 릴레이, 미분 저작권 심판"],
+            apps: [["하노이탑 수열탐험", "hanoi-recurrence"], ["합의 기하학", "sum-of-squares"], ["극한 릴레이", "composite-limit"]] },
+          { title: "수원 화성 매쓰투어", who: "윤희정 수석교사(마루고)", hook: "줄자 없이 창룡문 기둥 높이를 재라!",
+            lines: ["미션 1 창룡문 기둥의 높이: 직접 잴 수 없는 높이를 클리노미터(삼각비) 또는 거울(비와 비율)로 구하기",
+              "미션 2 기둥 문양 속 원의 배열: 원 6개가 둘러싸는 배열과 남은 넓이 비교, 구 12개(케플러의 추측)로 확장해 캔 담기 아이디어 제시"] },
+          { title: "동두천양주 국제교류", who: "이현애 교사(신흥중)", hook: "양말목 한 줄에서 프랑스까지, 키링 만들며 만나는 수학",
+            lines: ["한가위 축제 수학 아틀리에: 파리 아클리마타시옹 공원에서 콩드르세 중학교와 시에르핀스키 삼각형·스트링아트 키링 부스 운영",
+              "프랑스 중고등학교 방문: 가르교와 홍교의 아치, 루브르 피라미드와 석가탑의 닮음비, 약과의 회전 대칭 탐구",
+              "온라인 국제교류: 필리핀 학생들과 원주각(알지오매스) 실시간 교류, 그리스 학생의 문화·기하 발표, 컬처박스 교류"] },
+          { title: "안성 지역연계 수업사례", who: "박지민 교사(안성여고)", hook: "우리 동네 안성이 수학 교과서가 된다!",
+            lines: ["중1 칠곡호수공원 수학 탐정단: 일차방정식의 활용, 미션형 웹앱 결과가 교사 구글시트에 자동 저장",
+              "중2 우리지역 관광 노선 소개하기 · 금광호수 하늘전망대: 일차함수로 노선과 경사로 모델링",
+              "중3 산포도로 보는 명품 포도의 기준 · 고1 집합과 명제로 안성을 해석하다",
+              "고2 지역 신문 TF-IDF 텍스트분석 · 고3 오버투어리즘 해소 정책 탐구(이항분포·정규분포)"] }
+        ],
+        note: "경기형 AI 교수학습 플랫폼 수업콘텐츠 개발 자료는 부스에서 수업 꾸러미 문서로 소개합니다."
+      }
     }
   };
   // 체험2·3은 먼저 가려낸다. 아래 별칭의 '체험', '평가'에 걸리기 때문 ('체험수학 2.0'은 여기에 안 걸림)
@@ -227,7 +257,8 @@
     sessionsEl.querySelectorAll(".session").forEach(b => {
       const n = sessionRows(b.dataset.session).length;
       b.setAttribute("aria-selected", String(b.dataset.session === state.session));
-      b.querySelector(".state").textContent = !state.loaded ? "" : n ? n + "개" : "준비 중";
+      const ov = SESSIONS[b.dataset.session].overview;
+      b.querySelector(".state").textContent = !state.loaded ? "" : n ? n + "개" : ov ? ov.badge : "준비 중";
     });
     extraEl.innerHTML = "<b>추가 안내</b>" + SESSIONS[state.session].extra.map(x => "<span>" + esc(x) + "</span>").join("");
     const first = state.session === "exp1";
@@ -235,6 +266,36 @@
     noteEl.hidden = !first;
     toolbarEl.hidden = !first && !sessionRows(state.session).length;
     renderMaterials();
+    renderOverview();
+  }
+
+  /* 체험 소개 (체험3: 작품 카드 대신 교구 체험과 지역·국제교류 사례) */
+  const ovEl = el("section", { class: "overview", hidden: true });
+  grid.after(ovEl);
+  function renderOverview() {
+    const o = SESSIONS[state.session].overview;
+    ovEl.hidden = !o;
+    if (!o) return;
+    grid.hidden = true;
+    toolbarEl.hidden = true;
+    const appLink = ([label, id]) => {
+      const r = state.rows.find(x => x.id === id && shown(x));
+      return r ? '<a href="#app=' + encodeURIComponent(id) + '">' + esc(label) + "</a>" : "";
+    };
+    ovEl.innerHTML =
+      '<div class="ov-head"><h3>' + esc(o.title) + '</h3><div class="ov-tags">' + o.tags.map(t => "<span>#" + esc(t) + "</span>").join("") + "</div></div>" +
+      '<h4 class="ov-sub">부스에서 해 보는 교구 체험</h4>' +
+      '<div class="ov-acts">' + o.acts.map(([t, d]) => "<div><b>" + esc(t) + "</b><span>" + esc(d) + "</span></div>").join("") + "</div>" +
+      '<h4 class="ov-sub">지역·국제교류 사례 나눔</h4>' +
+      '<div class="ov-cases">' + o.cases.map((c, i) => {
+        const links = (c.apps || []).map(appLink).filter(Boolean);
+        return '<article class="ov-case"><span class="ov-n">' + (i + 1) + "</span><div>" +
+          "<h5>" + esc(c.title) + "</h5><small>" + esc(c.who) + '</small><p class="ov-hook">' + esc(c.hook) + "</p>" +
+          "<ul>" + c.lines.map(l => "<li>" + esc(l) + "</li>").join("") + "</ul>" +
+          (links.length ? '<p class="ov-apps"><b>바로 열기</b>' + links.join("") + "</p>" : "") +
+          "</div></article>";
+      }).join("") + "</div>" +
+      '<p class="ov-note">' + esc(o.note) + "</p>";
   }
 
   /* 체험 안의 자료 탭 (체험2: 통합설계 실습 + 수업 연계 PDF) */

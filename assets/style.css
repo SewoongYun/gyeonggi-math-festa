@@ -845,3 +845,33 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .subtabs .drive { margin-left: 0; width: 100%; }
   .material { padding: 16px; }
 }
+
+/* ═══ 체험3 소개: 교구 체험 + 지역·국제교류 사례 (주황 계열) ═══ */
+.overview[hidden] { display: none; }
+.overview { padding: 22px; background: var(--paper); border: 1px solid var(--line-2); border-radius: var(--r); }
+.ov-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 16px; margin-bottom: 6px; }
+.ov-head h3 { margin: 0; font-family: var(--font-display); font-size: clamp(1.25rem, 2.4vw, 1.6rem); letter-spacing: -0.02em; line-height: 1.35; word-break: keep-all; }
+.ov-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ov-tags span { padding: 4px 10px; border-radius: 999px; background: var(--coral-soft); color: var(--coral-ink); font-size: .85rem; font-weight: 700; }
+.ov-sub { margin: 22px 0 10px; font-size: 1.05rem; color: var(--coral-ink); }
+.ov-acts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.ov-acts > div { padding: 16px; border-radius: 14px; background: var(--coral-soft); text-align: center; }
+.ov-acts b { display: block; font-size: 1.05rem; word-break: keep-all; }
+.ov-acts span { display: block; margin-top: 4px; color: var(--ink-2); font-size: .92rem; line-height: 1.5; word-break: keep-all; }
+.ov-cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ov-case { display: flex; gap: 12px; padding: 16px; border: 1px solid var(--line-2); border-radius: 14px; min-width: 0; }
+.ov-n { flex: 0 0 auto; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; background: var(--coral); color: var(--on-ink); font-weight: 800; }
+.ov-case > div { min-width: 0; }
+.ov-case h5 { margin: 2px 0 0; font-size: 1.08rem; word-break: keep-all; }
+.ov-case small { color: var(--muted); }
+.ov-hook { margin: 6px 0; font-weight: 700; word-break: keep-all; }
+.ov-case ul { margin: 0; padding-left: 18px; color: var(--ink-2); font-size: .92rem; line-height: 1.6; }
+.ov-case li { margin-bottom: 4px; word-break: keep-all; }
+.ov-apps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; margin: 8px 0 0; font-size: .92rem; }
+.ov-apps b { color: var(--coral-ink); }
+.ov-apps a { color: var(--blue-ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+.ov-note { margin: 16px 0 0; color: var(--ink-2); font-size: .95rem; }
+@media (max-width: 760px) {
+  .overview { padding: 16px; }
+  .ov-acts, .ov-cases { grid-template-columns: minmax(0, 1fr); }
+}

@@ -43,6 +43,10 @@
       name: "체험3", title: "지역연계 체험 수학", cats: ["regional"],
       extra: ["제2부스에서 운영합니다", "경기형 AI 교수학습 플랫폼 수업콘텐츠 개발 자료 홍보"],
       planned: [],
+      materials: {
+        main: "체험3 소개",
+        items: [{ tab: "A4 안내지", title: "체험3 A4 안내지: 안성 · 김포 · 수원 화성 · 동두천양주", files: [["PDF", "materials/exp3/booth-a4.pdf"]] }]
+      },
       // 작품 카드 대신 보여 줄 소개 (부스 포스터와 A1 포스터 원본 내용)
       overview: {
         badge: "사례 4",
@@ -54,18 +58,18 @@
           ["케플러의 추측 단추 넣기", "정육각형 원 배열로 상자에 가득 채우기"]
         ],
         cases: [
-          { title: "김포 Hybrid 체험수학 2.0", who: "박현중 교사(하성고)", hook: "손으로 만지고, 앱으로 확인! 교구 × 바이브코딩 수학 놀이터",
+          { title: "김포 Hybrid 체험수학 2.0", page: 2, who: "박현중 교사(하성고)", hook: "손으로 만지고, 앱으로 확인! 교구 × 바이브코딩 수학 놀이터",
             lines: ["교구 7종: 펜토미노 달력, 수막대, 소마큐브, 오더리 삼각형, 스틱밤, 에셔 도마뱀 큐브, 직교 라틴방진 키캡",
               "웹앱 5선: 하노이탑 수열탐험, 오일러의 시계탑, 합의 기하학, 극한 릴레이, 미분 저작권 심판"],
             apps: [["하노이탑 수열탐험", "hanoi-recurrence"], ["합의 기하학", "sum-of-squares"], ["극한 릴레이", "composite-limit"]] },
-          { title: "수원 화성 매쓰투어", who: "윤희정 수석교사(마루고)", hook: "줄자 없이 창룡문 기둥 높이를 재라!",
+          { title: "수원 화성 매쓰투어", page: 2, who: "윤희정 수석교사(마루고)", hook: "줄자 없이 창룡문 기둥 높이를 재라!",
             lines: ["미션 1 창룡문 기둥의 높이: 직접 잴 수 없는 높이를 클리노미터(삼각비) 또는 거울(비와 비율)로 구하기",
               "미션 2 기둥 문양 속 원의 배열: 원 6개가 둘러싸는 배열과 남은 넓이 비교, 구 12개(케플러의 추측)로 확장해 캔 담기 아이디어 제시"] },
-          { title: "동두천양주 국제교류", who: "이현애 교사(신흥중)", hook: "양말목 한 줄에서 프랑스까지, 키링 만들며 만나는 수학",
+          { title: "동두천양주 국제교류", page: 3, who: "이현애 교사(신흥중)", hook: "양말목 한 줄에서 프랑스까지, 키링 만들며 만나는 수학",
             lines: ["한가위 축제 수학 아틀리에: 파리 아클리마타시옹 공원에서 콩드르세 중학교와 시에르핀스키 삼각형·스트링아트 키링 부스 운영",
               "프랑스 중고등학교 방문: 가르교와 홍교의 아치, 루브르 피라미드와 석가탑의 닮음비, 약과의 회전 대칭 탐구",
               "온라인 국제교류: 필리핀 학생들과 원주각(알지오매스) 실시간 교류, 그리스 학생의 문화·기하 발표, 컬처박스 교류"] },
-          { title: "안성 지역연계 수업사례", who: "박지민 교사(안성여고)", hook: "우리 동네 안성이 수학 교과서가 된다!",
+          { title: "안성 지역연계 수업사례", page: 1, who: "박지민 교사(안성여고)", hook: "우리 동네 안성이 수학 교과서가 된다!",
             lines: ["중1 칠곡호수공원 수학 탐정단: 일차방정식의 활용, 미션형 웹앱 결과가 교사 구글시트에 자동 저장",
               "중2 우리지역 관광 노선 소개하기 · 금광호수 하늘전망대: 일차함수로 노선과 경사로 모델링",
               "중3 산포도로 보는 명품 포도의 기준 · 고1 집합과 명제로 안성을 해석하다",
@@ -212,7 +216,7 @@
   const grid = document.getElementById("app-grid");
   if (!grid) return;
 
-  const state = { rows: [], loaded: false, session: "exp1", sub: -1, file: 0, filter: "all", query: "" };
+  const state = { rows: [], loaded: false, session: "exp1", sub: -1, file: 0, page: 0, filter: "all", query: "" };
   const sessionsEl = document.getElementById("sessions");
   const extraEl = document.getElementById("session-extra");
   const toolbarEl = document.getElementById("toolbar");
@@ -273,9 +277,10 @@
   const ovEl = el("section", { class: "overview", hidden: true });
   grid.after(ovEl);
   function renderOverview() {
-    const o = SESSIONS[state.session].overview;
-    ovEl.hidden = !o;
-    if (!o) return;
+    const s = SESSIONS[state.session], o = s.overview;
+    const onTab = !!(s.materials && state.sub >= 0);
+    ovEl.hidden = !o || onTab;
+    if (!o || onTab) return;
     grid.hidden = true;
     toolbarEl.hidden = true;
     const appLink = ([label, id]) => {
@@ -293,9 +298,14 @@
           "<h5>" + esc(c.title) + "</h5><small>" + esc(c.who) + '</small><p class="ov-hook">' + esc(c.hook) + "</p>" +
           "<ul>" + c.lines.map(l => "<li>" + esc(l) + "</li>").join("") + "</ul>" +
           (links.length ? '<p class="ov-apps"><b>바로 열기</b>' + links.join("") + "</p>" : "") +
+          (c.page ? '<button type="button" class="btn sm outline ov-page" data-page="' + c.page + '">안내지 ' + c.page + "쪽 보기</button>" : "") +
           "</div></article>";
       }).join("") + "</div>" +
       '<p class="ov-note">' + esc(o.note) + "</p>";
+    ovEl.querySelectorAll("[data-page]").forEach(b => b.onclick = () => {
+      state.sub = 0; state.file = 0; state.page = Number(b.dataset.page);
+      renderSessions(); showViewer();
+    });
   }
 
   /* 체험 안의 자료 탭 (체험2: 통합설계 실습 + 수업 연계 PDF) */
@@ -312,7 +322,7 @@
       const idx = i - 1;
       subEl.append(el("button", { class: "subtab", type: "button", role: "tab", "aria-selected": String(state.sub === idx), onclick: () => { state.sub = idx; state.file = 0; renderSessions(); showViewer(); } }, [label]));
     });
-    subEl.append(el("a", { class: "drive", href: m.drive, target: "_blank", rel: "noopener" }, ["공유 드라이브에서 전체 자료 보기"]));
+    if (m.drive) subEl.append(el("a", { class: "drive", href: m.drive, target: "_blank", rel: "noopener" }, ["공유 드라이브에서 전체 자료 보기"]));
     const item = m.items[state.sub];
     grid.hidden = !!item;
     matEl.hidden = !item;
@@ -326,7 +336,8 @@
       (item.files.length > 1 ? '<div class="mat-files" role="tablist" aria-label="파일 고르기">' + item.files.map(([label], i) => '<button type="button" class="subtab" role="tab" data-file="' + i + '" aria-selected="' + (i === state.file) + '">' + esc(label) + "</button>").join("") + "</div>" : "") +
       '<div class="pdf-viewer" aria-label="' + esc(item.title) + '"></div>';
     matEl.querySelectorAll("[data-file]").forEach(b => b.onclick = () => { state.file = Number(b.dataset.file); renderMaterials(); });
-    renderPdf(matEl.querySelector(".pdf-viewer"), href);
+    renderPdf(matEl.querySelector(".pdf-viewer"), href, state.page || 1);
+    state.page = 0;
   }
 
   /* PDF를 브라우저 뷰어에 맡기지 않고 PDF.js로 직접 그린다.
@@ -349,7 +360,7 @@
     });
     return pdfjsReady;
   }
-  async function renderPdf(box, href) {
+  async function renderPdf(box, href, start) {
     const token = ++pdfToken;
     pdfGo = null;
     box.innerHTML =
@@ -409,7 +420,7 @@
         x0 = null;
         if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
       }, { passive: true });
-      await show(1);
+      await show(start || 1);
     } catch (e) {
       if (token === pdfToken) stage.innerHTML = '<p class="pdf-status">PDF를 화면에 띄우지 못했습니다. 위의 <b>새 창으로 열기</b>를 눌러 주세요.</p>';
     }

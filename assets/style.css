@@ -875,3 +875,4 @@ strong { -webkit-box-decoration-break: clone; box-decoration-break: clone; }
   .overview { padding: 16px; }
   .ov-acts, .ov-cases { grid-template-columns: minmax(0, 1fr); }
 }
+.ov-page { margin-top: 10px; }
